@@ -17,7 +17,7 @@ public class OutputFileGenerator {
 
     public void generateStaticalData(Board b, int seed, Metrics m, boolean isPCC) {
         try (FileWriter fw = new FileWriter("statical-data-" + seed + "-" + b.getNumberParticles() + "-" + (int) b.getSide()
-                + "-" + (int) b.getCellSide() + "-" + (int) b.getParticleRadius() + "-" + isPCC + ".txt", false);
+                + "-" + (int) b.getCellSide() + "-" + (int) b.getInteractionRadius() + "-" + isPCC + ".txt", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
             out.println("time " + m.getTime());
@@ -29,7 +29,7 @@ public class OutputFileGenerator {
 
     public void generateNeighbourFile(Board b, int seed, boolean isPCC) {
         try(FileWriter fw = new FileWriter("neighbour-" + seed + "-" + b.getNumberParticles() + "-" + (int)b.getSide()
-                                            + "-" + (int)b.getCellSide() + "-" + (int)b.getParticleRadius() + "-" + isPCC + ".txt", false);
+                                            + "-" + (int)b.getCellSide() + "-" + (int)b.getInteractionRadius() + "-" + isPCC + ".txt", false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {

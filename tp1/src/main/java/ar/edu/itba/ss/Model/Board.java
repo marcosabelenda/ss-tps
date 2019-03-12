@@ -12,18 +12,18 @@ public class Board {
     private double cellSide;
     private int cantCellPerLine;
     private int numberParticles;
-    private double particleRadius;
+    private double interactionRadius;
 
-    public Board(double side, double cellSide, int numberParticles, double particleRadius, List<Particle> particles) throws Exception {
-        if(side <= 0 || cellSide <= 0 || Math.floor(side/cellSide) != side/cellSide || cellSide > side) throw new Exception("the sides are wrong");
+    public Board(double side, int cantCellPerLine, int numberParticles, double interactionRadius, List<Particle> particles) throws Exception {
+        if(side <= 0 || cantCellPerLine <= 0) throw new Exception("the sides are wrong");
         this.side = side;
-        this.cellSide = cellSide;
+        this.cellSide = side/cantCellPerLine;
         this.cells = new ArrayList<>();
-        this.cantCellPerLine = (int)(side/cellSide);
+        this.cantCellPerLine = cantCellPerLine;
         this.generateCell();
         this.numberParticles = numberParticles;
         this.neighbours = new HashMap<>();
-        this.particleRadius = particleRadius;
+        this.interactionRadius = interactionRadius;
         this.setParticles(particles);
     }
 
@@ -51,8 +51,8 @@ public class Board {
         return numberParticles;
     }
 
-    public double getParticleRadius() {
-        return particleRadius;
+    public double getInteractionRadius() {
+        return interactionRadius;
     }
 
     private void generateCell() {
@@ -87,7 +87,7 @@ public class Board {
 
     public boolean areNeighbours(Particle p1, Particle p2, String type) {
         try {
-            return getDistance(p1, p2, type) <= this.particleRadius;
+            return getDistance(p1, p2, type) <= (this.interactionRadius + p1.getRadius() + p2.getRadius());
         } catch (Exception e) {
             return false;
         }

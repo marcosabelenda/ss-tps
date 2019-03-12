@@ -6,14 +6,16 @@ public class Particle {
     private double y;
     private double vx;
     private double vy;
+    private double radius;
     private Integer id;
 
-    public Particle(Integer id, double x, double y, double vx, double vy) {
+    public Particle(Integer id, double x, double y, double vx, double vy, double radius) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
+        this.radius = radius;
     }
 
     public double getX() {
@@ -30,6 +32,10 @@ public class Particle {
 
     public double getVy() {
         return vy;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     public Integer getId() {

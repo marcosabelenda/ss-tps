@@ -30,11 +30,11 @@ public class ConfigurationManager {
 
         //cargo valores dinamicos de las particulas
         try {
-            dynamicParser.parse(configurationParser.getDynamicFileName());
+            dynamicParser.parse(configurationParser.getDynamicFileName(), configurationParser.getParticleRadius());
             this.particles = dynamicParser.getParticles();
         } catch (IOException e) {
             DynamicFileGenerator d = new DynamicFileGenerator();
-            d.generateDymanicFile(configurationParser.getSeed(), configurationParser.getNumberParticles(), configurationParser.getBoardSide());
+            d.generateDymanicFile(configurationParser.getSeed(), configurationParser.getNumberParticles(), configurationParser.getBoardSide(), configurationParser.getParticleRadius());
             this.particles = d.getParticles();
         }
     }

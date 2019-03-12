@@ -19,7 +19,7 @@ public class DynamicParser {
         this.particles = new ArrayList<>();
     }
 
-    public void parse(String fileName) throws IOException {
+    public void parse(String fileName, double particleRadius) throws IOException {
 
         FileReader fileReader = new FileReader(fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -28,7 +28,7 @@ public class DynamicParser {
         int index = 0;
         while((line = bufferedReader.readLine()) != null) {
             String [] args = line.split(VALUE_SEPARATOR);
-            particles.add(new Particle(index,Double.parseDouble(args[X]),Double.parseDouble(args[Y]), Double.parseDouble(args[VX]), Double.parseDouble(args[VY])));
+            particles.add(new Particle(index,Double.parseDouble(args[X]),Double.parseDouble(args[Y]), Double.parseDouble(args[VX]), Double.parseDouble(args[VY]), particleRadius));
             index++;
         }
         bufferedReader.close();

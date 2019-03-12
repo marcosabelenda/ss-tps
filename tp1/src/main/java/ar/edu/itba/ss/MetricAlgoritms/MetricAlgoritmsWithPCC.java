@@ -23,12 +23,12 @@ public class MetricAlgoritmsWithPCC implements MetricAlgoritm {
         if(p == null || b == null) {
             return;
         }
-        int aux = (int)(Math.ceil(b.getParticleRadius()/b.getCellSide()));
+        int aux = (int)(Math.ceil(b.getInteractionRadius()/b.getCellSide()));
         double auxX;
         double auxY;
         String type;
         boolean flag = false;
-        for(int i = 0 ; i <= aux ; i++) {
+        for(int i = 0 ; i <= 1 ; i++) {
 
             if (i + Math.floor(p.getY() / b.getCellSide()) >= b.getCantCellPerLine()) {
 
@@ -39,7 +39,7 @@ public class MetricAlgoritmsWithPCC implements MetricAlgoritm {
                 auxY = p.getY() + i*b.getCellSide();
                 type = Board.NC;
             }
-            for(int j = -aux ; j <= aux ; j++) {
+            for(int j = -1 ; j <= 1 ; j++) {
                 if(!flag) {
                     j = 0;
                     flag = true;
@@ -60,19 +60,19 @@ public class MetricAlgoritmsWithPCC implements MetricAlgoritm {
                     }
                 } else {
                     auxX = p.getX() + j*b.getCellSide();
-                    if(type.equals(Board.NC) || type.equals(Board.CWL)) {
-                        type = Board.NC;
-                    } else {
+                    if(type.equals(Board.CWHL) || type.equals(Board.CWL)) {
                         type = Board.CH;
+                    } else {
+                        type = Board.NC;
                     }
                 }
 
-                m.increaseComparisons();
 
                 Cell c = b.getCells().get(b.getCellIndex(auxX, auxY));
                 int size = c.getParticles().size();
                 if(i == 0 && j == 0) {
                     for(int k = particleIndex + 1 ; k < size ; k++) {
+                        m.increaseComparisons();
                         Particle particle = c.getParticles().get(k);
                         if(b.areNeighbours(p, particle, type)) {
                             b.setNeighbour(p, particle);
@@ -81,6 +81,7 @@ public class MetricAlgoritmsWithPCC implements MetricAlgoritm {
                     }
                 } else {
                     for (Particle particle : c.getParticles()) {
+                        m.increaseComparisons();
                         if(b.areNeighbours(p, particle, type)) {
                             b.setNeighbour(p, particle);
                             b.setNeighbour(particle, p);

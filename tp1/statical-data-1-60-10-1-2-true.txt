@@ -1,2 +1,0 @@
-time 6
-total_comparisons 780

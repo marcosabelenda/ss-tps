@@ -18,7 +18,7 @@ public class DynamicFileGenerator {
         this.particles = new ArrayList<>();
     }
 
-    public void generateDymanicFile(int seed, int numberParticles, double side) {
+    public void generateDymanicFile(int seed, int numberParticles, double side, double particleRadius) {
         try(FileWriter fw = new FileWriter("dynamic-" + seed + "-" + numberParticles + ".txt", false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
@@ -30,7 +30,7 @@ public class DynamicFileGenerator {
                 auxX = r.nextDouble() + r.nextInt((int)side);
                 auxY = r.nextDouble() + r.nextInt((int)side);
                 out.println(auxX + "," + auxY + ",0,0");
-                particles.add(new Particle(i, auxX, auxY, 0, 0));
+                particles.add(new Particle(i, auxX, auxY, 0, 0, particleRadius));
             }
             out.close();
         } catch (IOException e) {

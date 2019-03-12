@@ -4,6 +4,7 @@ import ar.edu.itba.ss.Model.Board;
 import ar.edu.itba.ss.Model.Cell;
 import ar.edu.itba.ss.Model.Particle;
 import ar.edu.itba.ss.utils.Metrics;
+import javafx.util.Pair;
 
 public class MetricAlgoritmsWithoutPCC implements MetricAlgoritm {
 
@@ -24,14 +25,13 @@ public class MetricAlgoritmsWithoutPCC implements MetricAlgoritm {
         if(p == null || b == null) {
             return;
         }
-        int aux = (int)(Math.ceil(b.getParticleRadius()/b.getCellSide()));
-        double auxX = p.getX();
-        double auxY = p.getY();
+        double auxX;
+        double auxY;
         String type = Board.NC;
         boolean flag = false;
-        for(int i = 0 ; i <= aux ; i++) {
+        for(int i = 0 ; i <= 1 ; i++) {
             if (i + Math.floor(p.getY() / b.getCellSide()) >= b.getCantCellPerLine()) break;
-            for(int j = -aux; j <= aux ; j++) {
+            for(int j = -1; j <= 1 ; j++) {
                 if(j + Math.floor(p.getX()/b.getCellSide()) >= b.getCantCellPerLine()) {
                     break;
                 }
@@ -42,12 +42,12 @@ public class MetricAlgoritmsWithoutPCC implements MetricAlgoritm {
                 if(p.getX() + j*b.getCellSide() > 0) {
                     auxX = p.getX() + j * b.getCellSide();
                     auxY = p.getY() + i * b.getCellSide();
-                    m.increaseComparisons();
 
                     Cell c = b.getCells().get(b.getCellIndex(auxX, auxY));
-                    int size = c.getParticles().size();
                     if (i == 0 && j == 0) {
+                        int size = c.getParticles().size();
                         for (int k = particleIndex + 1; k < size; k++) {
+                            m.increaseComparisons();
                             Particle auxP = c.getParticles().get(k);
                             if (b.areNeighbours(p, auxP, type)) {
                                 b.setNeighbour(p, auxP);
@@ -56,6 +56,7 @@ public class MetricAlgoritmsWithoutPCC implements MetricAlgoritm {
                         }
                     } else {
                         for (Particle particle : c.getParticles()) {
+                            m.increaseComparisons();
                             if (b.areNeighbours(p, particle, type)) {
                                 b.setNeighbour(p, particle);
                                 b.setNeighbour(particle, p);

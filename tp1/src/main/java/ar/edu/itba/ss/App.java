@@ -13,7 +13,7 @@ public class App
 
         ConfigurationManager cm = new ConfigurationManager();
 
-        Board b = new Board(cm.getConfigurationParser().getBoardSide(), cm.getConfigurationParser().getCellSide(),
+        Board b = new Board(cm.getConfigurationParser().getBoardSide(), cm.getConfigurationParser().getCellPerLine(),
                             cm.getConfigurationParser().getNumberParticles(), cm.getConfigurationParser().getRadius(),
                             cm.getParticles());
 

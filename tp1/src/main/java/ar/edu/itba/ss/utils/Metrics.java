@@ -2,7 +2,7 @@ package ar.edu.itba.ss.utils;
 
 public class Metrics {
 
-    private int totalComparisons;
+    private Integer totalComparisons =0;
     private Long start;
     private Long stop;
 

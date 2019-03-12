@@ -1,7 +1,6 @@
 seed:1
-number_particles:60
-board_side:10
-cell_side:1
-radius:2
+number_particles:300
+board_side:20
+cell_per_line:1
+radius:1
 PCC:1
-dynamic_file:dynamic-1-60.txt
