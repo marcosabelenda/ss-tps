@@ -4,7 +4,6 @@ import ar.edu.itba.ss.Model.Board;
 import ar.edu.itba.ss.Model.Cell;
 import ar.edu.itba.ss.Model.Particle;
 import ar.edu.itba.ss.utils.Metrics;
-import javafx.util.Pair;
 
 public class MetricAlgoritmsWithoutPCC implements MetricAlgoritm {
 
