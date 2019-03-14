@@ -16,8 +16,8 @@ public class OutputFileGenerator {
     }
 
     public void generateStaticalData(Board b, int seed, Metrics m, boolean isPCC) {
-        try (FileWriter fw = new FileWriter("statical-data-" + seed + "-" + b.getNumberParticles() + "-" + (int) b.getSide()
-                + "-" + (int) b.getCellSide() + "-" + (int) b.getInteractionRadius() + "-" + isPCC + ".txt", false);
+        try (FileWriter fw = new FileWriter("statical-data-" + seed + "-" + b.getNumberParticles() + "-" + b.getSide()
+                + "-" + b.getCellSide() + "-" + b.getInteractionRadius() + "-" + isPCC + ".txt", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
             out.println("time " + m.getTime());
