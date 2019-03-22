@@ -30,8 +30,8 @@ public class    DynamicFileGenerator {
 
             double auxX, auxY, auxAngle;
             for(int i = 0; i < numberParticles ; i++) {
-                auxX = r.nextDouble() + r.nextInt();
-                auxY = r.nextDouble() + r.nextInt();
+                auxX = r.nextDouble() + r.nextInt((int)side);
+                auxY = r.nextDouble() + r.nextInt((int)side);
                 auxAngle = Math.toRadians(r.nextDouble() + r.nextInt(360));
                 out.println(auxX + " " + auxY + " " + Math.cos(auxAngle)*v + " " + Math.sin(auxAngle)*v + " " + auxAngle);
                 particles.add(new Particle(i, auxX, auxY, v, auxAngle));
