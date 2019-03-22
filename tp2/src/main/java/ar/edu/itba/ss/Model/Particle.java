@@ -36,6 +36,15 @@ public class Particle {
         return id;
     }
 
+    public double getVx() {
+        return this.v*Math.cos(this.angle);
+    }
+
+
+    public double getVy() {
+        return this.v*Math.sin(this.angle);
+    }
+
     @Override
     public int hashCode() {
         return this.id.hashCode();

@@ -1,42 +1,46 @@
 package ar.edu.itba.ss.utils;
 
+import ar.edu.itba.ss.Model.Particle;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Metrics {
 
-    private Integer totalComparisons =0;
-    private Long start;
-    private Long stop;
+    private List<Double> polarizations;
 
     public Metrics() {
-        this.start = null;
-        this.stop = null;
+        this.polarizations = new LinkedList<>();
     }
 
-    public int getTotalComparisons() {
-        return this.totalComparisons;
-    }
-
-    public void increaseComparisons() {
-        this.totalComparisons++;
-    }
-
-    public void startTime() {
-        if(this.start != null) {
-            return;
+    public void addPolarization(List<Particle> list) {
+        double vx = 0, vy = 0;
+        if(list != null || list.size() != 0) {
+            for (Particle p : list) {
+                vx += p.getVx();
+                vy += p.getVy();
+            }
+            vx /= (list.size()*list.get(0).getV());
+            vy /= (list.size()*list.get(0).getV());
         }
-        this.start = System.currentTimeMillis();
+        this.polarizations.add(Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)));
     }
 
-    public void stopTime() {
-        if(this.start == null || this.stop != null) {
-            return;
+    public void saveMetrics() {
+        try(FileWriter fw = new FileWriter("metrics.txt", false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            for(Double d : polarizations) {
+                out.println(d);
+            }
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        this.stop = System.currentTimeMillis();
-    }
-
-    public long getTime() {
-        if(this.start == null || this.stop == null) {
-            return 0;
-        }
-        return this.stop - this.start;
     }
 }
