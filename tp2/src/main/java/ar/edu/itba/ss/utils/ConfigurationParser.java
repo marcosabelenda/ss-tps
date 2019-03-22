@@ -11,6 +11,7 @@ public class ConfigurationParser {
                                 ETHA = "etha",
                                 VELOCITY = "velocity",
                                 PRINT_TIME = "print_time",
+                                XYZ = "xyz",
                                 TOTAL_TIME = "total_time";
     private final static String VALUE_SEPARATOR = ":";
     private final static int HEADER = 0, VALUE = 1;
@@ -20,6 +21,8 @@ public class ConfigurationParser {
     private String dynamicFileName;
 
 
+
+    private boolean xyz = true;
     private double etha;
     private double velocity;
     private double print_time;
@@ -72,6 +75,11 @@ public class ConfigurationParser {
                     this.total_time = Integer.parseInt(args[VALUE]);
                     break;
 
+                case XYZ:
+                    if("false".equals(args[VALUE]))
+                        this.xyz=false;
+                    break;
+
 
 
                 default:
@@ -111,4 +119,7 @@ public class ConfigurationParser {
         return total_time;
     }
 
+    public boolean isXyz() {
+        return xyz;
+    }
 }
