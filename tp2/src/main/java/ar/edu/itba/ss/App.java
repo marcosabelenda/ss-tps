@@ -15,7 +15,7 @@ public class App
 
         DynamicFileGenerator dfg = new DynamicFileGenerator();
         Metrics m = new Metrics();
-        dfg.generateDymanicFile(1,50,10,0.03);
+        dfg.generateDymanicFile(15,50,10,0.01);
         Board b = new Board(10,10,50,1,dfg.getParticles());
         OffLattice ol = new OffLattice();
         double time = 1;

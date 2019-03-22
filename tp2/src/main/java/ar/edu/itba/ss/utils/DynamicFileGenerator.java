@@ -33,7 +33,7 @@ public class DynamicFileGenerator {
                 auxX = r.nextDouble() + r.nextInt((int)side);
                 auxY = r.nextDouble() + r.nextInt((int)side);
                 auxAngle = Math.toRadians(r.nextDouble() + r.nextInt(360));
-                out.println(auxX + " " + auxY + " " + auxAngle);
+                out.println(auxX + " " + auxY + " " + Math.cos(auxAngle)*v + " " + Math.sin(auxAngle)*v + " " + auxAngle);
                 particles.add(new Particle(i, auxX, auxY, v, auxAngle));
             }
             out.close();
@@ -50,7 +50,7 @@ public class DynamicFileGenerator {
             out.println(b.getNumberParticles());
             out.println("");
             for(Particle p : b.getParticles()) {
-                out.println(p.getX() + " " + p.getY() + " " + p.getAngle());
+                out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy() + " " + p.getAngle());
             }
             out.close();
         } catch (IOException e) {
