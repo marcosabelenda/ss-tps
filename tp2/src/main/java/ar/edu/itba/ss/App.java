@@ -23,7 +23,7 @@ public class App
         double etha = c.getConfigurationParser().getEtha();
 
 
-        dfg.generateDymanicFile((int) System.currentTimeMillis(),numberParticles,side, v);
+        dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),numberParticles,side, v);
         Board b = new Board(side, (int) side,numberParticles,1,dfg.getParticles());
         OffLattice ol = new OffLattice();
         double time = 1;
