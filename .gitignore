@@ -17,6 +17,7 @@
 *.zip
 *.tar.gz
 *.rar
+*.xyz
 
 tp1/.idea/workspace.xml
 

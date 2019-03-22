@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DynamicFileGenerator {
+public class    DynamicFileGenerator {
 
     private List<Particle> particles;
 
