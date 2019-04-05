@@ -50,18 +50,7 @@ public class Brownie {
 
 
 
-//
-//    public void calculateCollisionsTime2(Space space, double t){
-//        //borrar coliciones que esten con p1,p2
-//
-//        //avanzar tiempo coliciones
-//        for(Collision c : space.getCollisions()) {
-//            c.setTime(c.getTime()-t);
-//        }
-//        //calcular nuevas coliciones con p1,p2
-//
-//    }
-//
+
 //
 //    public double calcdR2(Particle p1, Particle p2) {
 //        return Math.pow(p1.getX()-p2.getX(),2) + Math.pow(p1.getY() - p2.getY(),2);

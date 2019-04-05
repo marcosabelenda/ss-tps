@@ -39,7 +39,7 @@ public class    DynamicFileGenerator {
                 } else {
                     while(true){
                         auxX = r1 + r.nextDouble() * (side-2*r1);
-                        auxY = r1 + r.nextDouble() + (side-2*r1);
+                        auxY = r1 + r.nextDouble() * (side-2*r1);
                         boolean f = true;
                         for(Particle p: particles){
                             if(Math.pow(auxX - p.getX(),2) + Math.pow(auxY - p.getY(), 2) <=  Math.pow(r1 + p.getR(), 2)){

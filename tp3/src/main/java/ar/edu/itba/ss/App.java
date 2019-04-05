@@ -19,25 +19,25 @@ public class App
         double v = c.getConfigurationParser().getVelocity();
         double etha = c.getConfigurationParser().getEtha();
 
-        double m1=2,m2=3,r1=0.2,r2=0.3; //TODO FIX
+        double m1=1,m2=1,r1=1,r2=1; //TODO FIX
         dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
                 numberParticles,
                 side,
                 m1,m2,
                 r1,r2);
-        System.out.print(1111111);
 
         Space s = new Space(side, dfg.getParticles());
 //        Board b = new Board(side, (int) side,numberParticles,1,dfg.getParticles());
 //        OffLattice ol = new OffLattice();
-        System.out.print(1111111);
         double time = 1;
         int n = 1;
         int printn = 1;
         double printTime = c.getConfigurationParser().getPrint_time();
         while(n<1000){ //TODO fIX
             //CALCULAR
+            s.advance();
             dfg.saveDynamicFile(s,n);
+
 
             n++;
 
