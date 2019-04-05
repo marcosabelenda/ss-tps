@@ -1,6 +1,7 @@
 package ar.edu.itba.ss.utils;
 
 import ar.edu.itba.ss.Model.Particle;
+import ar.edu.itba.ss.Model.Space;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -63,16 +64,21 @@ public class    DynamicFileGenerator {
             e.printStackTrace();
         }
     }
-/**
-    public void saveDynamicFile(Board b, int frame) {
+
+    public List<Particle> getParticles() {
+        return particles;
+    }
+
+    public void saveDynamicFile(Space space, int frame) {
         try(FileWriter fw = new FileWriter("frame-" + frame + ".xyz", false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(b.getNumberParticles());
+            out.println(space.getN());
             out.println("");
-            for(Particle p : b.getParticles()) {
-                //out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy() + " " + p.getAngle());
+            for(Particle p : space.getParticles()) {
+                out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy()  + " " + '0' + " " + p.getR());
+
             }
             out.close();
         } catch (IOException e) {
@@ -80,8 +86,5 @@ public class    DynamicFileGenerator {
         }
     }
 
-    public List<Particle> getParticles() {
-        return particles;
-    }
- **/
+
 }
