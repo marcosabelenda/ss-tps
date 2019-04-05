@@ -21,6 +21,7 @@ public class App
         double side = c.getConfigurationParser().getBoardSide();
         double v = c.getConfigurationParser().getVelocity();
         double etha = c.getConfigurationParser().getEtha();
+        boolean xyz = c.getConfigurationParser().isXyz();
 
 
         dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),numberParticles,side, v);
@@ -35,7 +36,7 @@ public class App
             ol.calculateNeighbours(b);
             List<Particle> particles = ol.calculateParticles(b,etha,time);
             b = new Board(side, (int) side,numberParticles,1, particles);
-            if(n*time % printTime == 0) {
+            if(n*time % printTime == 0 && xyz) {
                 dfg.saveDynamicFile(b,printn);
                 printn++;
             }
