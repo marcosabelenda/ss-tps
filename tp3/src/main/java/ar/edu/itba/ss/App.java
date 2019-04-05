@@ -1,7 +1,6 @@
 package ar.edu.itba.ss;
 
 
-import ar.edu.itba.ss.Model.Particle;
 import ar.edu.itba.ss.Model.Space;
 import ar.edu.itba.ss.utils.ConfigurationManager;
 import ar.edu.itba.ss.utils.DynamicFileGenerator;
@@ -19,7 +18,7 @@ public class App
         double v = c.getConfigurationParser().getVelocity();
         double etha = c.getConfigurationParser().getEtha();
 
-        double m1=1,m2=1,r1=3,r2=3; //TODO FIX
+        double m1=1,m2=1,r1=3,r2=5; //TODO FIX
         dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
                 numberParticles,
                 side,

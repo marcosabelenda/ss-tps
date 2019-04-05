@@ -7,7 +7,7 @@ public class Particle {
     private double vx;
     private double vy;
     private double r;
-    private Integer id;
+    private Integer id = -1;
     private double mass;
 
     public Particle(Integer id, double x, double y, double vx, double vy, double mass,double r) {

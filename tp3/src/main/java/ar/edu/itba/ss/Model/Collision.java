@@ -48,4 +48,20 @@ public class Collision {
     public int getWall() {
         return wall;
     }
+
+    @Override
+    public String toString() {
+        if(p2!=null){
+            return "Collision{" +
+                    "p1=" + p1.getId() +
+                    "    p2=" + p2.getId() +
+                    ",time=" + time +
+                    '}';
+        }else{
+            return "Collision{" +
+                    "p1=" + p1.getId() +
+                    ",time=" + time +
+                    '}';
+        }
+    }
 }
