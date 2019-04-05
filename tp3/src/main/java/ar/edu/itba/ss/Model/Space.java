@@ -1,5 +1,6 @@
 package ar.edu.itba.ss.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
@@ -8,6 +9,10 @@ public class Space {
     private double L;
     private TreeSet<Collision> collisions;
     private List<Particle> particles;
+
+    private ArrayList<ArrayList<Collision>> matrix;
+
+
     private int N;
 
     public Space(double L,List<Particle> particles){

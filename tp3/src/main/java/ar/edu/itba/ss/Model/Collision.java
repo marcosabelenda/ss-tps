@@ -2,11 +2,11 @@ package ar.edu.itba.ss.Model;
 
 public class Collision {
 
-    public static final Integer HORIZAONTAL = 0, VERTICAL = 1;
+    public static final Integer HORIZONTAL = 0, VERTICAL = 1;
     private  Particle p1;
-    private Particle p2; //ES NULL SI ES PARED
+    private Particle p2 = null; //ES NULL SI ES PARED
     private double time;
-    private int wall; //0 para techo/piso, 1 para pared izq/der
+    private int wall; // HORIZONTAL o VERTICAL
 
     public Collision(Particle p1,Particle p2, double time){
         this.p1 = p1;
