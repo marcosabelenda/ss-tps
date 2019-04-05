@@ -65,13 +65,20 @@ public class Space {
     public void advance(){
         System.out.println(nextCollision.getP1().getId()+" aaa "+nextCollision.getP2());
         double t = nextCollision.getTime();
+
+        for(Particle p : this.particles) {
+            p.setX(p.getX()+p.getVx()*t);
+            p.setY(p.getY()+p.getVy()*t);
+            if(p.getY()<0 && p.getX()<0){
+                System.out.print("Error");
+            }
+        }
+
+
         for(Collision c : this.collisions) {
             c.setTime(c.getTime()-t);
         }
-        for(Particle p : this.particles) {
-            p.setX(p.getVx()*t);
-            p.setY(p.getVy()*t);
-        }
+
         collide(nextCollision);
         updateCollision(nextCollision.getP1());
         if(nextCollision.getP2()!=null)
@@ -168,7 +175,7 @@ public class Space {
         }
     }
 
-    public void collide(Collision c) { //TODO USAR
+    public void collide(Collision c) {
         if(c.getP2() != null) {
             double j = calcJ(c.getP1(), c.getP2());
             double jx = calcJx(c.getP1(), c.getP1(),j);

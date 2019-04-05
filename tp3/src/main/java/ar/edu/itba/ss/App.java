@@ -19,7 +19,7 @@ public class App
         double v = c.getConfigurationParser().getVelocity();
         double etha = c.getConfigurationParser().getEtha();
 
-        double m1=1,m2=1,r1=1,r2=1; //TODO FIX
+        double m1=1,m2=1,r1=3,r2=3; //TODO FIX
         dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
                 numberParticles,
                 side,

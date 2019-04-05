@@ -16,20 +16,20 @@ public class Brownie {
 //            //veo primero los casos de las paredes
 //            if(p1.getVx() > 0) {
 //                space.getCollisions().add(
-//                        new Collision(p1,((space.getL()-p1.getR()-p1.getX())/p1.getVx()), Collision.HORIZONTAL) //TODO FIX
+//                        new Collision(p1,((space.getL()-p1.getR()-p1.getX())/p1.getVx()), Collision.HORIZONTAL)
 //                );
 //            } else if(p1.getVx() < 0) {
 //                space.getCollisions().add(
-//                        new Collision(p1,((p1.getR()-p1.getX())/p1.getVx()), Collision.HORIZONTAL) //TODO FIX
+//                        new Collision(p1,((p1.getR()-p1.getX())/p1.getVx()), Collision.HORIZONTAL)
 //                );
 //            }
 //            if(p1.getVy() > 0) {
 //                space.getCollisions().add(
-//                        new Collision(p1,((space.getL()-p1.getR()-p1.getY())/p1.getVy()), Collision.VERTICAL) //TODO FIX
+//                        new Collision(p1,((space.getL()-p1.getR()-p1.getY())/p1.getVy()), Collision.VERTICAL)
 //                );
 //            } else if(p1.getVy() < 0) {
 //                space.getCollisions().add(
-//                        new Collision(p1,((p1.getR()-p1.getY())/p1.getVy()), Collision.VERTICAL) //TODO FIX
+//                        new Collision(p1,((p1.getR()-p1.getY())/p1.getVy()), Collision.VERTICAL)
 //                 );
 //            }
 //
