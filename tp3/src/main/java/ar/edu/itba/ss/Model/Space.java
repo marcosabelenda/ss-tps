@@ -17,6 +17,7 @@ public class Space {
     private HashMap<Pair<Integer,Integer>, Collision> matrix;
     private HashMap<Integer,Collision> wallColX;
     private HashMap<Integer,Collision> wallColY;
+    private HashMap<Pair<Integer,Integer>,Collision> partCol;
 
     private Collision nextCollision = null;
 
@@ -24,18 +25,21 @@ public class Space {
         this.L = L;
         this.particles = particles;
         this.N = particles.size();
-        this.collisions = new LinkedList<>();
+        this.collisions = new LinkedList<>(); //TODAS las colisiones
 
         initialize();
-        getNextCollision();
 
         matrix = new HashMap<>();
-        wallColX = new HashMap<>(N);
+        wallColX = new HashMap<>(N); //colisiones ocn pared
         wallColY = new HashMap<>(N);
+        partCol = new HashMap<>(); //colisiones con particulas que no sean infitrno
 
         //cargo a las estructuras auxiliares
         for(Collision c: collisions){
            if(c.getP2()!=null){
+               if(Double.POSITIVE_INFINITY!=c.getTime()){
+                   partCol.put(new Pair<>(c.getP1().getId(),c.getP2().getId()),c);
+               }
                matrix.put(new Pair<>(c.getP1().getId(),c.getP2().getId()), c);
            }else{
                if(c.getWall() == Collision.HORIZONTAL){
@@ -45,6 +49,8 @@ public class Space {
                }
            }
         }
+        getNextCollision2();
+
     }
 
     private void getNextCollision(){
@@ -59,9 +65,36 @@ public class Space {
             }
         }
         this.nextCollision = candidate;
-        System.out.println(candidate);
     }
 
+    private void getNextCollision2(){ //version optimizada d ela original
+        Collision candidate = collisions.get(1);
+        double bestTime = Double.POSITIVE_INFINITY;
+
+        for(Collision c: wallColX.values()){
+            if(c.getTime()<bestTime && c.getTime()>0.000000001){
+
+                bestTime = c.getTime();
+                candidate = c;
+            }
+        }
+        for(Collision c: wallColY.values()){
+            if(c.getTime()<bestTime && c.getTime()>0.000000001){
+
+                bestTime = c.getTime();
+                candidate = c;
+            }
+        }
+        for(Collision c: partCol.values()){
+            if(c.getTime()<bestTime && c.getTime()>0.000000001){
+
+                bestTime = c.getTime();
+                candidate = c;
+            }
+        }
+        this.nextCollision = candidate;
+//        System.out.println(candidate);
+    }
 
 
     public void advance(){
@@ -84,8 +117,7 @@ public class Space {
         updateCollision(nextCollision.getP1());
         if(nextCollision.getP2()!=null)
             updateCollision(nextCollision.getP2());
-        getNextCollision();
-        //calcular nuevas coliciones con p1,p2
+        getNextCollision2();
 
     }
 
@@ -94,7 +126,13 @@ public class Space {
             if(p1.getId()==i)
                 continue;
             Particle p2 = particles.get(i);
-            getCollision(p1,p2).setTime(getTimeOfCollision2(p1,p2));
+            double t = getTimeOfCollision2(p1,p2);
+            Collision c = getCollision(p1,p2);
+            if(t==Double.POSITIVE_INFINITY)
+                partCol.remove(new Pair<>(c.getP1().getId(),c.getP2().getId()));
+            else
+                partCol.put(new Pair<>(c.getP1().getId(),c.getP2().getId()),c);
+            c.setTime(t);
         }
 
         if (p1.getVx() > 0) {
@@ -154,34 +192,12 @@ public class Space {
 
                 for (int j = i + 1; j < size; j++) {
                     p2 = this.particles.get(j);
-//                    dr2 = calcdR2(p1, p2);
-//                    dv2 = calcdV2(p1, p2);
-//                    dvdr = calcdVdR(p1, p2);
-//                    d = calcD(dr2, dv2, dvdr, p1.getR() + p2.getR());
-//                    if (dr2 < 0 && d >= 0) {
-//                        this.collisions.add(new Collision(p1, p2, -((dvdr + Math.sqrt(d)) / dv2)));
-//                    } else {
-//                        this.collisions.add(new Collision(p1, p2, Double.POSITIVE_INFINITY));
-//                    }
                     this.collisions.add(new Collision(p1, p2, getTimeOfCollision2(p1,p2)));
                 }
 
             }
     }
 
-    @Deprecated
-    private double getTimeOfCollision(Particle p1, Particle p2){
-        double dr2, dv2, dvdr, d;
-        dr2 = calcdR2(p1, p2);
-        dv2 = calcdV2(p1, p2);
-        dvdr = calcdVdR(p1, p2);
-        d = calcD(dr2, dv2, dvdr, p1.getR() + p2.getR());
-        if(dr2 < 0 && d >= 0){
-            return -((dvdr + Math.sqrt(d)) / dv2);
-        }else{
-            return Double.POSITIVE_INFINITY;
-        }
-    }
     private double getTimeOfCollision2(Particle p1, Particle p2){
         double dX = p2.getX() - p1.getX();
         double dY = p2.getY() - p1.getY();
@@ -238,24 +254,6 @@ public class Space {
         }
     }
 
-    @Deprecated
-    private double calcdR2(Particle p1, Particle p2) {
-        return Math.pow(p1.getX()-p2.getX(),2) + Math.pow(p1.getY() - p2.getY(),2);
-    }
-
-    @Deprecated
-    private double calcdV2(Particle p1, Particle p2) {
-        return Math.pow(p1.getVx() - p2.getVx(), 2) + Math.pow(p1.getVy() - p2.getVy(), 2);
-    }
-    @Deprecated
-    private double calcdVdR(Particle p1, Particle p2) {
-        return Math.pow(p1.getVx()*p2.getX(), 2) + Math.pow(p1.getVy()*p1.getY(), 2);
-    }
-
-    @Deprecated
-    private double calcD(double dR2, double dV2, double dVdR, double omega) {
-        return Math.pow(dVdR, 2) - dV2*(dR2 - Math.pow(omega, 2));
-    }
 
 
     private double calcJ(Particle p1, Particle p2) {
