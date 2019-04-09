@@ -16,34 +16,35 @@ public class App
         int numberParticles = c.getConfigurationParser().getNumberParticles();
         double side = c.getConfigurationParser().getBoardSide();
         double v = c.getConfigurationParser().getVelocity();
-        double etha = c.getConfigurationParser().getEtha();
+        int totalTime = c.getConfigurationParser().getTotal_time();
+        int printTime = c.getConfigurationParser().getPrint_time();
 
-        double m1=1,m2=1,r1=3,r2=3; //TODO FIX
+        double m1=0.1,m2=100,r1=0.005,r2=0.05; //TODO FIX
         dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
                 numberParticles,
                 side,
+                v,
                 m1,m2,
                 r1,r2);
 
         Space s = new Space(side, dfg.getParticles());
-        double time = 1;
         int n = 1;
-        int printn = 1;
-        double printTime = c.getConfigurationParser().getPrint_time();
         System.out.println("Iniciado!!!");
         long start = System.currentTimeMillis();
-        while(n<1000){ //TODO fIX
+        while(n<totalTime){ //TODO fIX
             //CALCULAR
             s.advance();
-            dfg.saveDynamicFile(s,n);
-
-
+            if( n % printTime == 0) {
+                dfg.saveDynamicFile(s,n);
+            }
             n++;
 
         }
         long finish =System.currentTimeMillis();
         long timeElapsed = finish - start;
         System.out.println("Tiempo en ms: "+timeElapsed);
+        s.getM().saveMetrics();
+        s.getM().saveMetricsBolita();
 
     }
 }

@@ -1,0 +1,5 @@
+number_particles:500
+board_side:0.5
+velocity:0.1
+total_time:100000
+print_time:100000

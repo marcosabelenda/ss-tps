@@ -19,7 +19,7 @@ public class    DynamicFileGenerator {
         this.particles = new ArrayList<>();
     }
 
-    public void generateDymanicFile(int seed, int numberParticles, double side,
+    public void generateDymanicFile(int seed, int numberParticles, double side, double v,
                                     double m1, double m2,
                                     double r1, double r2) {
         try(FileWriter fw = new FileWriter("frame-0.xyz", false);
@@ -53,7 +53,7 @@ public class    DynamicFileGenerator {
                         }
                     }
 
-                    auxV = r.nextDouble() * 0.1; //TODO MAGIC NUMBER
+                    auxV = r.nextDouble() * v; //TODO MAGIC NUMBER
                     auxAngle = Math.toRadians(r.nextDouble() + r.nextInt(360));
                     out.println(auxX + " " + auxY + " " + Math.cos(auxAngle) * auxV + " " + Math.sin(auxAngle) * auxV + " " + auxAngle + " " + r1);
                     particles.add(new Particle(i, auxX, auxY, Math.cos(auxAngle)*auxV, Math.sin(auxAngle)*auxV,m1,r1));
