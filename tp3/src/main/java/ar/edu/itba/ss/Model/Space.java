@@ -1,6 +1,7 @@
 package ar.edu.itba.ss.Model;
 
 
+import ar.edu.itba.ss.utils.Metrics;
 import com.sun.xml.internal.ws.model.ParameterImpl;
 import javafx.util.Pair;
 
@@ -21,11 +22,15 @@ public class Space {
 
     private Collision nextCollision = null;
 
+    private Metrics m;
+
     public Space(double L,List<Particle> particles){
         this.L = L;
         this.particles = particles;
         this.N = particles.size();
         this.collisions = new LinkedList<>(); //TODAS las colisiones
+
+        this.m = new Metrics();
 
         initialize();
 
@@ -100,6 +105,8 @@ public class Space {
     public void advance(){
         double t = nextCollision.getTime();
 
+        m.addTime(t);
+
         for(Particle p : this.particles) {
             p.setX(p.getX()+p.getVx()*t);
             p.setY(p.getY()+p.getVy()*t);
@@ -108,6 +115,7 @@ public class Space {
             }
         }
 
+        m.addBolitaPos(particles.get(0));
 
         for(Collision c : this.collisions) {
             c.setTime(c.getTime()-t);
@@ -290,4 +298,7 @@ public class Space {
     }
 
 
+    public Metrics getM() {
+        return m;
+    }
 }
