@@ -2,11 +2,9 @@ package ar.edu.itba.ss.Model;
 
 
 import ar.edu.itba.ss.utils.Metrics;
-import com.sun.xml.internal.ws.model.ParameterImpl;
 import javafx.util.Pair;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Space {
     private double L; //tamanio

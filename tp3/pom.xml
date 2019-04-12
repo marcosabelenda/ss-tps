@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ar.edu.itba.ss</groupId>
-  <artifactId>tp2</artifactId>
+  <artifactId>tp3</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>tp2</name>
+  <name>tp3</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 

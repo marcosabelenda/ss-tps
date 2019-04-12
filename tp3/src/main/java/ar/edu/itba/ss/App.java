@@ -18,14 +18,25 @@ public class App
         double v = c.getConfigurationParser().getVelocity();
         int totalTime = c.getConfigurationParser().getTotal_time();
         int printTime = c.getConfigurationParser().getPrint_time();
+        double temp = c.getConfigurationParser().getTemperature();
 
         double m1=0.1,m2=100,r1=0.005,r2=0.05; //TODO FIX
-        dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
-                numberParticles,
-                side,
-                v,
-                m1,m2,
-                r1,r2);
+        if(temp == 0) {
+            dfg.generateDymanicFile((int) Math.abs(System.currentTimeMillis()),
+                    numberParticles,
+                    side,
+                    v,
+                    m1,m2,
+                    r1,r2);
+        } else {
+            dfg.generateTempDymanicFile((int) Math.abs(System.currentTimeMillis()),
+                    numberParticles,
+                    side,
+                    temp,
+                    m1,m2,
+                    r1,r2);
+        }
+
 
         Space s = new Space(side, dfg.getParticles());
         int n = 1;

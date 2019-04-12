@@ -9,6 +9,7 @@ public class ConfigurationParser {
                                 BOARD_SIDE_HEADER = "board_side",
                                 VELOCITY = "velocity",
                                 PRINT_TIME = "print_time",
+                                TEMPERATURE = "temperature",
                                 TOTAL_TIME = "total_time";
     private final static String VALUE_SEPARATOR = ":";
     private final static int HEADER = 0, VALUE = 1;
@@ -17,6 +18,7 @@ public class ConfigurationParser {
     private double boardSide;
 
     private double velocity;
+    private double temperature = 0;
     private int print_time;
     private int total_time;
 
@@ -55,8 +57,9 @@ public class ConfigurationParser {
                 case TOTAL_TIME:
                     this.total_time = Integer.parseInt(args[VALUE]);
                     break;
-
-
+                case TEMPERATURE:
+                    this.temperature = Double.parseDouble(args[VALUE]);
+                    break;
 
                 default:
 
@@ -87,4 +90,7 @@ public class ConfigurationParser {
         return total_time;
     }
 
+    public double getTemperature() {
+        return temperature;
+    }
 }
