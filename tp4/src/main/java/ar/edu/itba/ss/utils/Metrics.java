@@ -19,18 +19,19 @@ public class Metrics {
 
     public void addPolarization(List<Particle> list) {
         double vx = 0, vy = 0;
-        if(list != null || list.size() != 0) {
-            for (Particle p : list) {
-                vx += p.getVx();
-                vy += p.getVy();
-            }
-            vx /= (list.size()*list.get(0).getV());
-            vy /= (list.size()*list.get(0).getV());
+        if(list==null || list.size()==0)
+            return;
+        for (Particle p : list) {
+            vx += p.getVx();
+            vy += p.getVy();
         }
+        vx /= (list.size()*list.get(0).getV());
+        vy /= (list.size()*list.get(0).getV());
+
         this.polarizations.add(Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)));
     }
 
-    public void saveMetrics() {
+    public void saveMetrics() { //TODO FIX THIS MESS
         try(FileWriter fw = new FileWriter("metrics.txt", false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))

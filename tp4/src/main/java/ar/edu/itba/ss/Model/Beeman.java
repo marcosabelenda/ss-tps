@@ -1,6 +1,6 @@
-package ar.edu.itba.ss;
+package ar.edu.itba.ss.Model;
 
-public class Beeman {
+public class Beeman implements Algorithm{
 
     private double r;
     private double v;
@@ -31,7 +31,7 @@ public class Beeman {
 
         while (tiempo < tiempoTotal) {
 
-            rSig = r + v * dt + ((2 / 3) * a - (1 / 6) * aAnt) * Math.pow(dt, 2);
+            rSig = r + v * dt + ((2 / 3) * a - (1 / 6) * aAnt) * Math.pow(dt, 2); //TODO arreglar error de casteo flotante
             vPredicted = v + (3 / 2) * a * dt - (1 / 2) * aAnt * dt;
             aSig = aceleracion(rSig, vPredicted);
             v = v + (1 / 3) * aSig * dt + (5 / 6) * a * dt - (1 / 6) * aAnt * dt;
