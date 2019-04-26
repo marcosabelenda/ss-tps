@@ -12,7 +12,12 @@ public class ConfigurationParser {
                                 VELOCITY = "velocity",
                                 PRINT_TIME = "print_time",
                                 XYZ = "xyz",
+                                DELTA_TIME = "delta_time",
+                                MASS = "mass",
+                                ELASTICITY = "elasticity",
+                                GAMMA = "gamma",
                                 TOTAL_TIME = "total_time";
+
     private final static String VALUE_SEPARATOR = ":";
     private final static int HEADER = 0, VALUE = 1;
 
@@ -26,6 +31,13 @@ public class ConfigurationParser {
     private double etha;
     private double velocity;
     private double print_time;
+
+    private double delta_time;
+    private double mass;
+    private double elasticity;
+    private double gamma;
+
+
     private int total_time;
 
 
@@ -57,11 +69,9 @@ public class ConfigurationParser {
                     this.dynamicFileName = args[VALUE];
                     break;
 
-
                 case ETHA:
                     this.etha = Double.parseDouble(args[VALUE]);
                     break;
-
 
                 case VELOCITY:
                     this.velocity = Double.parseDouble(args[VALUE]);
@@ -73,6 +83,22 @@ public class ConfigurationParser {
 
                 case TOTAL_TIME:
                     this.total_time = Integer.parseInt(args[VALUE]);
+                    break;
+
+                case DELTA_TIME:
+                    this.delta_time = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case MASS:
+                    this.mass = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case ELASTICITY:
+                    this.elasticity = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case GAMMA:
+                    this.gamma = Double.parseDouble(args[VALUE]);
                     break;
 
                 case XYZ:
@@ -121,5 +147,21 @@ public class ConfigurationParser {
 
     public boolean isXyz() {
         return xyz;
+    }
+
+    public double getDelta_time() {
+        return delta_time;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public double getElasticity() {
+        return elasticity;
+    }
+
+    public double getGamma() {
+        return gamma;
     }
 }

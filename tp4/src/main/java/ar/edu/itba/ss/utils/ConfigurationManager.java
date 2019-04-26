@@ -5,6 +5,7 @@ import ar.edu.itba.ss.Model.Particle;
 import java.io.IOException;
 import java.util.List;
 
+@Deprecated
 public class ConfigurationManager {
 
 
@@ -21,9 +22,7 @@ public class ConfigurationManager {
         //cargo configuracion
         try {
             configurationParser.parse(CONFIGURATION_FILE_NAME);
-        } catch (IOException e) {
-
-        } catch (Exception e) {
+        } catch (Exception e) { //no manos
 
         }
 

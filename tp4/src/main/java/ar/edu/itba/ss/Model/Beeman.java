@@ -1,6 +1,6 @@
 package ar.edu.itba.ss.Model;
 
-public class Beeman implements Algorithm{
+public class Beeman{
 
     private double r;
     private double v;
@@ -39,7 +39,7 @@ public class Beeman implements Algorithm{
             r = rSig;
             aAnt = a;
             a = aSig;
-            tiempo++;
+            tiempo++; //TODO arreglar, el tiempo NO es discreto
         }
     }
 
