@@ -28,7 +28,7 @@ public class Analytic implements Algorithm {
         while (tiempo < tiempoTotal) {
             double position = equation(m,gamma,k,tiempo);
             metrics.addPosition(new Pair<>(tiempo,position));
-            tiempo+=dt;
+            tiempo += dt;
         }
         metrics.saveMetrics();
     }

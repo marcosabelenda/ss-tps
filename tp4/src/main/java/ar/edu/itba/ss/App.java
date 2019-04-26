@@ -10,6 +10,6 @@ public class App
         ConfigurationParser c = new ConfigurationParser();
         c.parse("configuration.txt");
         Analytic a = new Analytic(c);
-        a.run(100,1);
+        a.run(10000,1);
     }
 }

@@ -30,7 +30,7 @@ public class AlgorithmMetrics {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw);
             for (Pair<Double,Double> p : positions) {
-                out.println(p.getKey()+' '+p.getValue());
+                out.println(p.getKey()+" "+p.getValue());
             }
             out.close();
         }catch (IOException e) {
