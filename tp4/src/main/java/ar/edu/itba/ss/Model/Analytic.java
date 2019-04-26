@@ -12,20 +12,26 @@ public class Analytic implements Algorithm {
     private double k;
     private double gamma;
 
+    private double dt;
+    private double tt;
+
 
     public  Analytic(ConfigurationParser c){
         this.m = c.getMass();
         this.k = c.getElasticity();
         this.gamma = c.getGamma();
 
+        this.tt = c.getTotal_time();
+        this.dt = c.getDelta_time();
+
         this.metrics = new AlgorithmMetrics("analytic-metric");
     }
 
     @Override
-    public void run(double tiempoTotal, double dt) {
+    public void run() {
         double tiempo = 0;
 
-        while (tiempo < tiempoTotal) {
+        while (tiempo < tt) {
             double position = equation(m,gamma,k,tiempo);
             metrics.addPosition(new Pair<>(tiempo,position));
             tiempo += dt;

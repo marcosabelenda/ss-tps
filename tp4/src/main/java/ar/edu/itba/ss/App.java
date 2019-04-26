@@ -2,6 +2,7 @@ package ar.edu.itba.ss;
 
 
 import ar.edu.itba.ss.Model.Analytic;
+import ar.edu.itba.ss.Model.Gear;
 import ar.edu.itba.ss.utils.ConfigurationParser;
 
 public class App
@@ -10,6 +11,10 @@ public class App
         ConfigurationParser c = new ConfigurationParser();
         c.parse("configuration.txt");
         Analytic a = new Analytic(c);
-        a.run(10000,1);
+        a.run();
+
+
+        Gear g = new Gear(c);
+        g.run();
     }
 }
