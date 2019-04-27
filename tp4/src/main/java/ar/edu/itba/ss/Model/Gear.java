@@ -33,8 +33,8 @@ public class Gear implements Algorithm {
         mass = c.getMass();
         dt = c.getDelta_time();
         tt = c.getTotal_time();
-        position = 0; // TODO CHECK
-        velocity = 0;
+        position = 1; //HARD CODEED
+        velocity = -gamma/(2*mass);
 
     }
 
