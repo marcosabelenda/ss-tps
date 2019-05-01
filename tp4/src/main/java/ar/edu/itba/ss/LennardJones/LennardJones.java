@@ -146,7 +146,7 @@ public class LennardJones {
         double a = 12.0 / rm;
         double b = rm / r;
 
-        double f = a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+        double f =  -  a * e * (Math.pow(b, 13) - Math.pow(b, 7));
 
         double fx = f * dx/r;
         double fy = f * dy/r;
@@ -234,7 +234,7 @@ public class LennardJones {
         int tImp = 1;
         while(t < tt) {
 
-            calculateNewPositionThread(b);
+            calculateNewPosition(b);
 
             if(tImp % ti == 0) {
                 dfg.saveDynamicFile(b, frame);
