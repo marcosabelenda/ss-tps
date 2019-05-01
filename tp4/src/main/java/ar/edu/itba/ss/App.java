@@ -15,15 +15,17 @@ public class App
 {
     public static void main( String[] args ) throws Exception {
 
+        ConfigurationParser c = new ConfigurationParser();
+        c.parse("configuration.txt");
         DynamicFileGenerator dfg = new DynamicFileGenerator();
 
-        dfg.generateDymanicFile(1,1000, 200, 10, 0.1, 1);
+        dfg.generateDymanicFile(1,c.getNumberParticles(), 200, 5, 0.1, 1);
         //dfg.getParticles().add(new Particle(1, 100.0, 50.0, 1, 0.1, 1, 0, 0, 0));
         //dfg.getParticles().add(new Particle(2, 106.0, 50.0, 1, 0.1, -1, 0, 0, 0));
 
         Board b = new Board(200, 400, 5, 40, 80, 5,2,1, dfg.getParticles());
         dfg.saveDynamicFile(b, 0);
-        LennardJones lj = new LennardJones(0.0000001, 5, dfg);
+        LennardJones lj = new LennardJones(c.getDelta_time(), c.getTotal_time(), c.getPrint_time(), dfg);
 
         lj.run(b);
 

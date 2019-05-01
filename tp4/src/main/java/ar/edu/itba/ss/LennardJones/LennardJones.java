@@ -8,11 +8,13 @@ public class LennardJones {
 
     private double dt;
     private double tt;
+    private double ti;
     private DynamicFileGenerator dfg;
 
-    public LennardJones(double dt, double tt, DynamicFileGenerator dfg) {
+    public LennardJones(double dt, double tt, double ti, DynamicFileGenerator dfg) {
         this.dt = dt;
         this.tt = tt;
+        this.ti = ti;
         this.dfg = dfg;
     }
 
@@ -196,7 +198,7 @@ public class LennardJones {
 
             calculateNewPosition(b);
 
-            if(tImp % 10000 == 0) {
+            if(tImp % ti == 0) {
                 dfg.saveDynamicFile(b, frame);
                 frame++;
             }
