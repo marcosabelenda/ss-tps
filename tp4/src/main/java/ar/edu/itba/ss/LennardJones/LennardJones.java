@@ -146,7 +146,7 @@ public class LennardJones {
         double a = 12.0 / rm;
         double b = rm / r;
 
-        double f = a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+        double f = - a * e * (Math.pow(b, 13) - Math.pow(b, 7));
 
         double fx = f * dx/r;
         double fy = f * dy/r;
@@ -156,16 +156,29 @@ public class LennardJones {
 
 
     public void calculateNewPosition(Board b) {
+
         for (Particle p : b.getParticles()) {
-            beemanFirstPart(p);
+            velvet(p);
         }
         b.reset();
         calculateNeighbours(b);
-        calculateForce(b, 1);
-        for (Particle p : b.getParticles()) {
-            beemanSeconfPart(p);
-        }
+        calculateForce(b, 0);
     }
+
+    private void velvet(Particle p) {
+        double x = 2 * p.getX() - p.getPrevx() + p.getAx() * Math.pow(dt, 2);
+        double y = 2 * p.getY() - p.getPrevy() + p.getAy() * Math.pow(dt, 2);
+
+        double vx = (x - p.getPrevx())/(dt*2);
+        double vy = (y - p.getPrevy())/(dt*2);
+
+        p.setX(x);
+        p.setY(y);
+        p.setVx(vx);
+        p.setVy(vy);
+
+    }
+
 
     public void calculateNewPositionThread(Board b) throws InterruptedException {
         int index =0;
@@ -225,7 +238,12 @@ public class LennardJones {
     public void run(Board b) throws InterruptedException {
         calculateNeighbours(b);
         calculateForce(b, 0);
-        eulerInitialStep(b);
+        for(Particle p : b.getParticles()) {
+            p.setVx(p.getVx() + dt*p.getAx());
+            p.setVy(p.getVy() + dt*p.getAy());
+            p.setX(p.getX() + dt*p.getVx() + Math.pow(dt,2)*p.getAx()/2);
+            p.setY(p.getY() + dt*p.getVy() + Math.pow(dt,2)*p.getAy()/2);
+        }
         b.reset();
         calculateNeighbours(b);
         calculateForce(b, 0);
@@ -234,7 +252,9 @@ public class LennardJones {
         int tImp = 1;
         while(t < tt) {
 
-            calculateNewPositionThread(b);
+            //calculateNewPositionThread(b);
+
+            calculateNewPosition(b);
 
             if(tImp % ti == 0) {
                 dfg.saveDynamicFile(b, frame);

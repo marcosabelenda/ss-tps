@@ -4,6 +4,8 @@ public class Particle {
 
     private double x;
     private double y;
+    private double prevx;
+    private double prevy;
     private double r;
     private double m;
     private double vx;
@@ -20,6 +22,8 @@ public class Particle {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.prevx = x;
+        this.prevy = y;
         this.r = r;
         this.m = m;
         this.vx = vx;
@@ -33,6 +37,7 @@ public class Particle {
     }
 
     public void setX(double x) {
+        this.prevx = this.x;
         this.x = x;
     }
 
@@ -41,6 +46,7 @@ public class Particle {
     }
 
     public void setY(double y) {
+        this.prevy = this.y;
         this.y = y;
     }
 
@@ -115,6 +121,15 @@ public class Particle {
     public void setNeway(double neway) {
         this.neway = neway;
     }
+
+    public double getPrevx() {
+        return prevx;
+    }
+
+    public double getPrevy() {
+        return prevy;
+    }
+
 
     public Integer getId() {
         return id;
