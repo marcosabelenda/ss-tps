@@ -1,6 +1,5 @@
 package ar.edu.itba.ss.utils;
 
-import ar.edu.itba.ss.Model.Particle;
 import javafx.util.Pair;
 
 import java.io.BufferedWriter;
