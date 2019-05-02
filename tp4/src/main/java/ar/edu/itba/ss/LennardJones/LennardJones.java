@@ -163,6 +163,7 @@ public class LennardJones {
         b.reset();
         calculateNeighbours(b);
         calculateForce(b, 0);
+        calculatePotential(b);
     }
 
     private void velvet(Particle p) {
@@ -267,22 +268,53 @@ public class LennardJones {
     }
 
 
-    private void beemanFirstPart(Particle p) {
-        double x = p.getX() + p.getVx() * dt + ((2.0 / 3.0) * p.getAx() - (1.0 / 6.0) * p.getOldax()) * Math.pow(dt, 2);
-        p.setX(x);
-        double y = p.getY() + p.getVy() * dt + ((2.0 / 3.0) * p.getAy() - (1.0 / 6.0) * p.getOlday()) * Math.pow(dt, 2);
-        p.setY(y);
+//    private void beemanFirstPart(Particle p) {
+//        double x = p.getX() + p.getVx() * dt + ((2.0 / 3.0) * p.getAx() - (1.0 / 6.0) * p.getOldax()) * Math.pow(dt, 2);
+//        p.setX(x);
+//        double y = p.getY() + p.getVy() * dt + ((2.0 / 3.0) * p.getAy() - (1.0 / 6.0) * p.getOlday()) * Math.pow(dt, 2);
+//        p.setY(y);
+//    }
+//
+//    private void beemanSeconfPart(Particle p) {
+//        double vx = p.getVx() + ( (1.0 / 3.0) * p.getNewax() + (5.0 / 6.0) * p.getAx()  - (1.0 / 6.0) * p.getOldax()) * dt;
+//        p.setVx(vx);
+//        double vy = p.getVy() + ( (1.0 / 3.0) * p.getNeway() + (5.0 / 6.0) * p.getAy()  - (1.0 / 6.0) * p.getOlday()) * dt;
+//        p.setVy(vy);
+//        p.setOldax(p.getAx());
+//        p.setOlday(p.getAy());
+//        p.setAx(p.getNewax());
+//        p.setAy(p.getNeway());
+//    }
+
+
+    private double getPotential(Particle p1,Particle p2){
+        double d = Math.sqrt(Math.pow(p1.getX() - p2.getX(),2)+Math.pow(p1.getY() - p2.getY(),2));
+        double ep = 0.32 * Math.pow(10,-9);
+        double sigma = 1.08 * Math.pow(10,-21);
+        double rm = Math.pow(2,1/6) * sigma;
+        double lj = ep *
+                (Math.pow(rm/d,12) - 2*Math.pow(rm/d,6));
+        return lj;
     }
 
-    private void beemanSeconfPart(Particle p) {
-        double vx = p.getVx() + ( (1.0 / 3.0) * p.getNewax() + (5.0 / 6.0) * p.getAx()  - (1.0 / 6.0) * p.getOldax()) * dt;
-        p.setVx(vx);
-        double vy = p.getVy() + ( (1.0 / 3.0) * p.getNeway() + (5.0 / 6.0) * p.getAy()  - (1.0 / 6.0) * p.getOlday()) * dt;
-        p.setVy(vy);
-        p.setOldax(p.getAx());
-        p.setOlday(p.getAy());
-        p.setAx(p.getNewax());
-        p.setAy(p.getNeway());
+
+    public void calculatePotential(Board b){
+        for (Particle p : b.getParticles()) {
+            Set<Particle> list = b.getNeighbours().get(p);
+            double pot = calcPotential(p, list);
+            p.setPotential(pot);
+        }
     }
+
+    private double calcPotential(Particle p, Set<Particle> list){
+        double total =0;
+        if (list != null) {
+            for (Particle p2 : list) {
+                total+= getPotential(p, p2);
+            }
+        }
+        return total;
+    }
+
 
 }
