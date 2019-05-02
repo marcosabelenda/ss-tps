@@ -19,7 +19,7 @@ public class App
         c.parse("configuration.txt");
         DynamicFileGenerator dfg = new DynamicFileGenerator();
 
-        dfg.generateDymanicFile(1,c.getNumberParticles(), 200, 5, 0.1, 1);
+        dfg.generateDymanicFile(1,c.getNumberParticles(), 200, c.getVelocity(), c.getMass(), 1);
         //dfg.getParticles().add(new Particle(1, 100.0, 50.0, 1, 0.1, 1, 0, 0, 0));
         //dfg.getParticles().add(new Particle(2, 106.0, 50.0, 1, 0.1, -1, 0, 0, 0));
 

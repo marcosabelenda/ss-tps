@@ -131,6 +131,10 @@ public class Particle {
         return prevy;
     }
 
+    public double getKinetic(){
+        return (1/2.0)*m*(Math.pow(vx,2)+Math.pow(vy,2));
+    }
+
 
     public Integer getId() {
         return id;
