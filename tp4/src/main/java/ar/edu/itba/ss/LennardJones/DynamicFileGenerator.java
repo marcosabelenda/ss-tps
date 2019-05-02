@@ -66,7 +66,7 @@ public class    DynamicFileGenerator {
             out.println(b.getParticles().size());
             out.println("");
             for(Particle p : b.getParticles()) {
-                out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy()  + " " + p.getR());
+                out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy()  + " " + p.getR() +  " " + p.getPotential());
 
             }
             out.close();

@@ -126,7 +126,7 @@ public class Board {
     }
 
     public void reset() {
-        neighbours = new HashMap<>();
+        neighbours.clear();
         for(Cell c : cells) {
             c.getParticles();
         }
