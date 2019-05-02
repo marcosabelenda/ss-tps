@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Gear implements Algorithm {
 
-    private double elasticity;
+    private double k;
     private double gamma;
     private double mass;
     private double dt;
@@ -28,7 +28,7 @@ public class Gear implements Algorithm {
 
     public Gear(ConfigurationParser c){
         this.metrics = new AlgorithmMetrics("gear-metric");
-        elasticity = c.getElasticity();
+        k = c.getElasticity();
         gamma = c.getGamma();
         mass = c.getMass();
         dt = c.getDelta_time();
@@ -60,7 +60,7 @@ public class Gear implements Algorithm {
         ld.add(this.velocity);
         for(int i=1;i<order;i++){
             int size = ld.size();
-            double value = (this.elasticity * ld.get(size - 2) + this.gamma * ld.get(size - 1));
+            double value = (this.k * ld.get(size - 2) + this.gamma * ld.get(size - 1));
             value = - value / this.mass;
             ld.add(value);
         }
@@ -84,7 +84,7 @@ public class Gear implements Algorithm {
     }
 
     private double evaluar(List<Double> pred){
-        double realA = this.elasticity * pred.get(0) + this.gamma * pred.get(1);
+        double realA = this.k * pred.get(0) + this.gamma * pred.get(1);
         realA = - realA / this.mass;
         double err = realA - pred.get(2);
         err = err * Math.pow(this.dt, 2) / factorials[2];
@@ -93,13 +93,6 @@ public class Gear implements Algorithm {
 
     private List<Double> corregir(List<Double> pred,double err){
         List<Double> corr = new LinkedList<>();
-//        int i=0;
-//        for(Double p: pred){
-//            double cache = p +
-//                            (alphaOrder5[i] * err * factorials[i] /
-//                            Math.pow(this.dt, i));
-//            i++;
-//        }
         for (int i = 0; i < pred.size()-1; i++){ //TODO FIJAR
             double value = pred.get(i) + alphaOrder5[i] * err * factorials[i] / Math.pow(dt, i);
             corr.add(value);

@@ -167,43 +167,7 @@ public class LennardJones {
         }
     }
 
-    public void calculateNewPositionThread(Board b) throws InterruptedException {
-        int index =0;
-        Thread[] threads = {null,null,null,null};
-        for (Cell c: b.getCells()){
-            threads[index]=new BeemanThreadOne(c.getParticles(),dt);
-            threads[index].run();
-            if(index==3){
-                index=0;
-                for(Thread t: threads){
-                    t.join();
-                }
-            }else{
-                index++;
-            }
-        }
-        for(Thread t: threads){
-            t.join();
-        }
-        b.reset();
-        calculateNeighbours(b);
-        calculateForce(b, 1);
-        for (Cell c: b.getCells()){
-            threads[index]=new BeemanThreadTwo(c.getParticles(),dt);
-            threads[index].run();
-            if(index==3){
-                index=0;
-                for(Thread t: threads){
-                    t.join();
-                }
-            }else{
-                index++;
-            }
-        }
-        for(Thread t: threads){
-            t.join();
-        }
-    }
+
 
     private void eulerInitialStep(Board b) {
 
