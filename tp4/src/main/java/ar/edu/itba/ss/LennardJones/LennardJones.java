@@ -291,6 +291,7 @@ public class LennardJones {
         double sigma = 0.32 * Math.pow(10,-9);
         double ep = 1.08 * Math.pow(10,-21);
         double rm = Math.pow(2,1/6.0) * sigma;
+        rm = 1;
         double lj = ep *
                 (Math.pow(rm/d,12) - 2*Math.pow(rm/d,6));
         return lj;
