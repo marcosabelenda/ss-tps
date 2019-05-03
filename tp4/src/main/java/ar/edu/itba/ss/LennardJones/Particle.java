@@ -4,6 +4,8 @@ public class Particle {
 
     private double x;
     private double y;
+    private double prevx;
+    private double prevy;
     private double r;
     private double m;
     private double vx;
@@ -22,6 +24,8 @@ public class Particle {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.prevx = x;
+        this.prevy = y;
         this.r = r;
         this.m = m;
         this.vx = vx;
@@ -35,6 +39,7 @@ public class Particle {
     }
 
     public void setX(double x) {
+        this.prevx = this.x;
         this.x = x;
     }
 
@@ -43,6 +48,7 @@ public class Particle {
     }
 
     public void setY(double y) {
+        this.prevy = this.y;
         this.y = y;
     }
 
@@ -118,6 +124,19 @@ public class Particle {
         this.neway = neway;
     }
 
+    public double getPrevx() {
+        return prevx;
+    }
+
+    public double getPrevy() {
+        return prevy;
+    }
+
+    public double getKinetic(){
+        return (1/2.0)*m*(Math.pow(vx,2)+Math.pow(vy,2));
+    }
+
+
     public Integer getId() {
         return id;
     }
@@ -151,4 +170,13 @@ public class Particle {
 
         return this.id.equals(p.getId());
     }
+
+    public double getPotential() {
+        return potential;
+    }
+
+    public void setPotential(double potential) {
+        this.potential = potential;
+    }
+
 }

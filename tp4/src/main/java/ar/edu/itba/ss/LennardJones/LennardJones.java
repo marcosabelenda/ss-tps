@@ -166,7 +166,8 @@ public class LennardJones {
         double a = 12.0 / rm;
         double b = rm / r;
 
-        double f =  -  a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+        double f = - a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+
 
         double fx = f * dx/r;
         double fy = f * dy/r;
@@ -177,15 +178,65 @@ public class LennardJones {
 
     public void calculateNewPosition(Board b) {
         for (Particle p : b.getParticles()) {
-            beemanFirstPart(p);
+            velvet(p);
+        }
+        b.reset();
+        calculateNeighbours(b);
+        calculateForce(b, 0);
+        calculatePotential(b);
+    }
+
+    private void velvet(Particle p) {
+        double x = 2 * p.getX() - p.getPrevx() + p.getAx() * Math.pow(dt, 2);
+        double y = 2 * p.getY() - p.getPrevy() + p.getAy() * Math.pow(dt, 2);
+
+        double vx = (x - p.getPrevx())/(dt*2);
+        double vy = (y - p.getPrevy())/(dt*2);
+
+        p.setX(x);
+        p.setY(y);
+        p.setVx(vx);
+        p.setVy(vy);
+
+    }
+
+
+    public void calculateNewPositionThread(Board b) throws InterruptedException {
+        int index =0;
+        Thread[] threads = {null,null,null,null};
+        for (Cell c: b.getCells()){
+            threads[index]=new BeemanThreadOne(c.getParticles(),dt);
+            threads[index].run();
+            if(index==3){
+                index=0;
+                for(Thread t: threads){
+                    t.join();
+                }
+            }else{
+                index++;
+            }
+        }
+        for(Thread t: threads){
+            t.join();
         }
         b.reset();
         calculateNeighbours(b);
         calculateForce(b, 1);
-        for (Particle p : b.getParticles()) {
-            beemanSeconfPart(p);
+        for (Cell c: b.getCells()){
+            threads[index]=new BeemanThreadTwo(c.getParticles(),dt);
+            threads[index].run();
+            if(index==3){
+                index=0;
+                for(Thread t: threads){
+                    t.join();
+                }
+            }else{
+                index++;
+            }
         }
-    }
+        for(Thread t: threads){
+            t.join();
+        }
 
     private double getPotential(Particle p1,Particle p2){
         double d = Math.sqrt(Math.pow(p1.getX() - p2.getX(),2)+Math.pow(p1.getY() - p2.getY(),2));
@@ -219,7 +270,12 @@ public class LennardJones {
     public void run(Board b) throws InterruptedException {
         calculateNeighbours(b);
         calculateForce(b, 0);
-        eulerInitialStep(b);
+        for(Particle p : b.getParticles()) {
+            p.setVx(p.getVx() + dt*p.getAx());
+            p.setVy(p.getVy() + dt*p.getAy());
+            p.setX(p.getX() + dt*p.getVx() + Math.pow(dt,2)*p.getAx()/2);
+            p.setY(p.getY() + dt*p.getVy() + Math.pow(dt,2)*p.getAy()/2);
+        }
         b.reset();
         calculateNeighbours(b);
         calculateForce(b, 0);
@@ -241,22 +297,54 @@ public class LennardJones {
     }
 
 
-    private void beemanFirstPart(Particle p) {
-        double x = p.getX() + p.getVx() * dt + ((2.0 / 3.0) * p.getAx() - (1.0 / 6.0) * p.getOldax()) * Math.pow(dt, 2);
-        p.setX(x);
-        double y = p.getY() + p.getVy() * dt + ((2.0 / 3.0) * p.getAy() - (1.0 / 6.0) * p.getOlday()) * Math.pow(dt, 2);
-        p.setY(y);
+//    private void beemanFirstPart(Particle p) {
+//        double x = p.getX() + p.getVx() * dt + ((2.0 / 3.0) * p.getAx() - (1.0 / 6.0) * p.getOldax()) * Math.pow(dt, 2);
+//        p.setX(x);
+//        double y = p.getY() + p.getVy() * dt + ((2.0 / 3.0) * p.getAy() - (1.0 / 6.0) * p.getOlday()) * Math.pow(dt, 2);
+//        p.setY(y);
+//    }
+//
+//    private void beemanSeconfPart(Particle p) {
+//        double vx = p.getVx() + ( (1.0 / 3.0) * p.getNewax() + (5.0 / 6.0) * p.getAx()  - (1.0 / 6.0) * p.getOldax()) * dt;
+//        p.setVx(vx);
+//        double vy = p.getVy() + ( (1.0 / 3.0) * p.getNeway() + (5.0 / 6.0) * p.getAy()  - (1.0 / 6.0) * p.getOlday()) * dt;
+//        p.setVy(vy);
+//        p.setOldax(p.getAx());
+//        p.setOlday(p.getAy());
+//        p.setAx(p.getNewax());
+//        p.setAy(p.getNeway());
+//    }
+
+
+    private double getPotential(Particle p1,Particle p2){
+        double d = Math.sqrt(Math.pow(p1.getX() - p2.getX(),2)+Math.pow(p1.getY() - p2.getY(),2));
+        double sigma = 0.32 * Math.pow(10,-9);
+        double ep = 1.08 * Math.pow(10,-21);
+        double rm = Math.pow(2,1/6.0) * sigma;
+        rm = 1;
+        double lj = ep *
+                (Math.pow(rm/d,12) - 2*Math.pow(rm/d,6));
+        return lj;
     }
 
-    private void beemanSeconfPart(Particle p) {
-        double vx = p.getVx() + ( (1.0 / 3.0) * p.getNewax() + (5.0 / 6.0) * p.getAx()  - (1.0 / 6.0) * p.getOldax()) * dt;
-        p.setVx(vx);
-        double vy = p.getVy() + ( (1.0 / 3.0) * p.getNeway() + (5.0 / 6.0) * p.getAy()  - (1.0 / 6.0) * p.getOlday()) * dt;
-        p.setVy(vy);
-        p.setOldax(p.getAx());
-        p.setOlday(p.getAy());
-        p.setAx(p.getNewax());
-        p.setAy(p.getNeway());
+
+    public void calculatePotential(Board b){
+        for (Particle p : b.getParticles()) {
+            Set<Particle> list = b.getNeighbours().get(p);
+            double pot = calcPotential(p, list);
+            p.setPotential(pot);
+        }
     }
+
+    private double calcPotential(Particle p, Set<Particle> list){
+        double total =0;
+        if (list != null) {
+            for (Particle p2 : list) {
+                total+= getPotential(p, p2);
+            }
+        }
+        return total;
+    }
+
 
 }

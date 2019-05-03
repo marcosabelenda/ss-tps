@@ -1,10 +1,8 @@
-total_time:5
-delta_time:0.001
-mass:70
+mass:0.1
 elasticity:10000
 gamma:100
 number_particles:1000
 velocity:10
-print_time:1000
-delta_time:0.000001
-total_time:5
+print_time:100
+delta_time:0.00001
+total_time:10
