@@ -99,6 +99,26 @@ public class LennardJones {
         }
     }
 
+    public void calculatePotential(Board b){
+        for (Particle p : b.getParticles()) {
+            Set<Particle> list = b.getNeighbours().get(p);
+            double pot = calcPotential(p, list);
+            p.setPotential(pot);
+        }
+    }
+
+    private double calcPotential(Particle p, Set<Particle> list){
+        double total =0;
+        if (list != null) {
+            for (Particle p2 : list) {
+                total+= getPotential(p, p2);
+            }
+        }
+        return total;
+    }
+
+
+
     private Pair<Double,Double> calculateForce(Board b, Particle p, Set<Particle> list, double e, double rm) {
         double fx = 0, fy = 0;
 
@@ -147,6 +167,7 @@ public class LennardJones {
         double b = rm / r;
 
         double f = - a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+
 
         double fx = f * dx/r;
         double fy = f * dy/r;
@@ -216,7 +237,18 @@ public class LennardJones {
         for(Thread t: threads){
             t.join();
         }
+
+    private double getPotential(Particle p1,Particle p2){
+        double d = Math.sqrt(Math.pow(p1.getX() - p2.getX(),2)+Math.pow(p1.getY() - p2.getY(),2));
+        double ep = 0.32 * Math.pow(10,-9);
+        double sigma = 1.08 * Math.pow(10,-21);
+        double rm = Math.pow(2,1/6) * sigma;
+        double lj = ep *
+                    (Math.pow(rm/d,12) - 2*Math.pow(rm/d,6));
+        return lj;
     }
+
+
 
     private void eulerInitialStep(Board b) {
 
@@ -251,8 +283,6 @@ public class LennardJones {
         int frame = 1;
         int tImp = 1;
         while(t < tt) {
-
-            //calculateNewPositionThread(b);
 
             calculateNewPosition(b);
 

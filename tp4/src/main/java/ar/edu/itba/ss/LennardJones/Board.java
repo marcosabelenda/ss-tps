@@ -128,7 +128,7 @@ public class Board {
     public void reset() {
         neighbours.clear();
         for(Cell c : cells) {
-            c.getParticles().clear();
+            c.getParticles();
         }
         setParticles(particles);
     }

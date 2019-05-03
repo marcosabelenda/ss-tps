@@ -19,6 +19,7 @@ public class Particle {
     private Integer id;
     private double potential;
 
+
     public Particle(Integer id, double x, double y, double r, double m, double vx, double vy, double ax, double ay) {
         this.id = id;
         this.x = x;
@@ -139,6 +140,15 @@ public class Particle {
     public Integer getId() {
         return id;
     }
+
+    public double getPotential() {
+        return potential;
+    }
+
+    public void setPotential(double potential) {
+        this.potential = potential;
+    }
+
 
     @Override
     public int hashCode() {
