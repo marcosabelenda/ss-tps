@@ -1,7 +1,6 @@
 package ar.edu.itba.ss.LennardJones;
 
 import javafx.util.Pair;
-import sun.nio.cs.ext.MacHebrew;
 
 import java.util.Set;
 
@@ -19,66 +18,12 @@ public class LennardJones {
         this.dfg = dfg;
     }
 
-    public void calculateNeighbours(Board b) {
-        for (Cell c : b.getCells()) {
-            int size = c.getParticles().size();
-            for (int i = 0; i < size; i++) {
-                calculateNeighbours(c.getParticles().get(i), i, b);
-            }
-        }
-    }
 
-    private void calculateNeighbours(Particle p, int particleIndex, Board b) {
-        if (p == null || b == null) {
-            return;
-        }
 
-        double auxX;
-        double auxY;
-        boolean flag = false;
-        for (int i = 0; i <= 1; i++) {
-            if (i + Math.floor(p.getY() / b.getCellSide()) >= b.getCantCellPerRow())
-                break;
-            for (int j = -1; j <= 1; j++) {
-                if (j + Math.floor(p.getX() / b.getCellSide()) >= b.getCantCellPerLine()) {
-                    break;
-                }
-                if (!flag) {
-                    j = 0;
-                    flag = true;
-                }
-
-                if (p.getX() + j * b.getCellSide() > 0) {
-                    auxX = p.getX() + j * b.getCellSide();
-                    auxY = p.getY() + i * b.getCellSide();
-
-                    Cell c = b.getCells().get(b.getCellIndex(auxX, auxY));
-                    if (i == 0 && j == 0) {
-                        int size = c.getParticles().size();
-                        for (int k = particleIndex + 1; k < size; k++) {
-                            Particle auxP = c.getParticles().get(k);
-                            if (b.areNeighbours(p, auxP)) {
-                                b.setNeighbour(p, auxP);
-                                b.setNeighbour(auxP, p);
-                            }
-                        }
-                    } else {
-                        for (Particle particle : c.getParticles()) {
-                            if (b.areNeighbours(p, particle)) {
-                                b.setNeighbour(p, particle);
-                                b.setNeighbour(particle, p);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void calculateForce(Board b, int type) {
-        for (Particle p : b.getParticles()) {
-            Set<Particle> list = b.getNeighbours().get(p);
-            Pair<Double, Double> f = calculateForce(b, p, list, b.getE(), b.getRm());
+    public void calculateForce(Board2 b, int type) {
+        for (Particle p : b.particles) {
+            Set<Particle> list = b.neighbours.get(p);
+            Pair<Double, Double> f = calculateForce(b, p, list, b.e, b.rm);
             if(type == 1) {
                 p.setNewax(f.getKey() / p.getM());
                 p.setNeway(f.getValue() / p.getM());
@@ -90,7 +35,7 @@ public class LennardJones {
     }
 
 
-    private Pair<Double,Double> calculateForce(Board b, Particle p, Set<Particle> list, double e, double rm) {
+    private Pair<Double,Double> calculateForce(Board2 b, Particle p, Set<Particle> list, double e, double rm) {
         double fx = 0, fy = -p.getM()*b.g;
         //calculo con los vecines
         if (list != null) {
@@ -100,13 +45,14 @@ public class LennardJones {
                 fy += f.getValue();
             }
         }
+
         //calculo las paredes
         if (p.getY() <= p.getR()) {
             Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, p.getX(), 0, p.getR(), 0, 0, 0, 0, 0), e, rm);
             fx += f.getKey();
             fy += f.getValue();
-        } else if (b.getHeight() - p.getY() <= p.getR()) {
-            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, p.getX(), b.getHeight(), p.getR(), 0, 0, 0, 0, 0), e, rm);
+        } else if (b.height - p.getY() <= p.getR()) {
+            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, p.getX(), b.height, p.getR(), 0, 0, 0, 0, 0), e, rm);
             fx += f.getKey();
             fy += f.getValue();
         }
@@ -115,8 +61,8 @@ public class LennardJones {
             Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, 0, p.getY(), p.getR(), 0, 0, 0, 0, 0), e, rm);
             fx += f.getKey();
             fy += f.getValue();
-        } else if (b.getWidth() - p.x <= p.r) {
-            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, b.getWidth(), p.getY(), p.getR(), 0, 0, 0, 0, 0), e, rm);
+        } else if (b.width - p.x <= p.r) {
+            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, b.width, p.getY(), p.getR(), 0, 0, 0, 0, 0), e, rm);
             fx += f.getKey();
             fy += f.getValue();
 
@@ -126,7 +72,7 @@ public class LennardJones {
 //        } else if ((Math.abs(b.getWidth() / 2 - p.getX()) <= p.getR()) &&
 //                !(p.getY() > (b.getHeight() / 2 - 5)
 //                        && p.getY() < (b.getHeight() / 2 + 5))) {
-            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, b.getWidth() / 2, p.getY(), p.getR(), 0, 0, 0, 0, 0), e, rm);
+            Pair<Double, Double> f = getForceAgainstParticle(p, new Particle(-1, b.width / 2, p.getY(), p.getR(), 0, 0, 0, 0, 0), e, rm);
             fx += f.getKey();
             fy += f.getValue();
         }
@@ -134,7 +80,6 @@ public class LennardJones {
         return new Pair<>(fx,fy);
     }
 
-    @Deprecated
     private Pair<Double, Double> getForceAgainstParticle(Particle p1, Particle p2, double e, double rm) {
         double dx = p2.getX() - p1.getX();
         double dy = p2.getY() - p1.getY();
@@ -143,7 +88,7 @@ public class LennardJones {
         double a = 12.0 / rm;
         double b = rm / r;
 
-        double f = - a * e * (Math.pow(b, 13) - Math.pow(b, 7));
+        double f = a * e * (Math.pow(b, 13) - Math.pow(b, 7));
 
 
         double fx = f * dx/r;
@@ -153,7 +98,7 @@ public class LennardJones {
     }
 
 
-    private Pair<Double, Double> getForceAgainstParticle2(Particle p1, Particle p2, double e, double rm, Board b) {
+    private Pair<Double, Double> getForceAgainstParticle2(Particle p1, Particle p2, double e, double rm, Board2 b) {
         double ri = Math.hypot(p1.x,p1.y);
         double rj = Math.hypot(p2.x,p2.y);
 
@@ -173,12 +118,13 @@ public class LennardJones {
     }
 
 
-    public void calculateNewPosition(Board b) {
-        for (Particle p : b.getParticles()) {
+    public void calculateNewPosition(Board2 b) {
+        for (Particle p : b.particles) {
             velvet(p);
         }
         b.reset();
-        calculateNeighbours(b);
+//        calculateNeighbours(b);
+        b.rearrangeNeighbours();
         calculateForce(b, 0);
     }
 
@@ -197,13 +143,9 @@ public class LennardJones {
     }
 
 
+    private void eulerInitialStep(Board2 b) {
 
-
-
-
-    private void eulerInitialStep(Board b) {
-
-        for(Particle p : b.getParticles()) {
+        for(Particle p : b.particles) {
             double x = p.getX() + dt*p.getVx() + (Math.pow(dt,2)/2)*p.getAx();
             double vx = p.getVx() + dt*p.getAx();
             double y = p.getY() + dt*p.getVy() + (Math.pow(dt,2)/2)*p.getAy();
@@ -218,17 +160,17 @@ public class LennardJones {
         }
     }
 
-    public void run(Board b) throws InterruptedException {
-        calculateNeighbours(b);
+    public void run(Board2 b) throws InterruptedException {
+        b.rearrangeNeighbours();
         calculateForce(b, 0);
-        for(Particle p : b.getParticles()) {
+        for(Particle p : b.particles) {
             p.setVx(p.getVx() + dt*p.getAx());
             p.setVy(p.getVy() + dt*p.getAy());
             p.setX(p.getX() + dt*p.getVx() + Math.pow(dt,2)*p.getAx()/2);
             p.setY(p.getY() + dt*p.getVy() + Math.pow(dt,2)*p.getAy()/2);
         }
         b.reset();
-        calculateNeighbours(b);
+        b.rearrangeNeighbours();
         calculateForce(b, 0);
         double t = dt;
         int frame = 1;

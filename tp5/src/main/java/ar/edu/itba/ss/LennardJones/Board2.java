@@ -1,92 +1,104 @@
 package ar.edu.itba.ss.LennardJones;
 
+import javafx.util.Pair;
+
 import java.util.*;
 
 public class Board2 {
 
-    List<Cell> cells;
+    Map<Pair<Integer, Integer>, Cell2> cells;
     Map<Particle, Set<Particle>> neighbours;
     List<Particle> particles;
+
     double height;
     double width;
+    double e;
+    double rm;
+    double cellSize;
+
     double g;
     double kn;
     double kt;
-    double e;
-    double rm;
     double window;
 
 
-
-    double cellSide;
-    int cantCellPerLine;
-    double cantCellPerRow;
-
-    public Board2(double height, double width, double cellSide, int cantCellPerRow, int cantCellPerLine,
-                   double e, double rm, List<Particle> particles) throws Exception {
+    @Deprecated
+    public Board2(double height, double width, double e, double rm, double cellSide, List<Particle> particles) {
         this.height = height;
         this.width = width;
-        this.cellSide = cellSide;
-        this.cells = new ArrayList<>();
-        this.cantCellPerLine = cantCellPerLine;
-        this.cantCellPerRow = cantCellPerRow;
+        this.cellSize = cellSide;
+        this.cells = new HashMap<>();
         this.e = e;
         this.rm = rm;
-        this.generateCell();
         this.neighbours = new HashMap<>();
         this.particles = particles;
-        this.setParticles(particles);
+        this.ordenarParticulas(particles);
     }
 
 
+    public Board2(double height, double width, double e, double rm, double cellSize,
+                  double g, double kn, double kt, double window,
+                  List<Particle> particles) {
+        this.height = height;
+        this.width = width;
+        this.cellSize = cellSize;
+        this.cells = new HashMap<>();
+        this.e = e;
+        this.rm = rm;
 
-    public Map<Particle, Set<Particle>> getNeighbours() {
-        return neighbours;
+                this.g =g;
+        this.kn = kn;
+        this.kt = kt;
+        this.window = window;
+
+        this.neighbours = new HashMap<>();
+        this.particles = particles;
+        this.ordenarParticulas(particles);
     }
 
 
+    public Cell2 getCell(Pair<Integer, Integer> position) {
+        if (!cells.containsKey(position)) {
+            cells.put(position, new Cell2(this.cellSize, position.getValue(), position.getKey()));
+        }
+        return cells.get(position);
+    }
 
-    private void generateCell() {
-        for(int i = 0 ; i < this.cantCellPerRow ; i++) {
-            for(int j = 0 ; j < this.cantCellPerLine ; j++) {
-                this.cells.add(new Cell(this.cellSide,j*this.cellSide, i*this.cellSide));
-            }
+
+    private void ordenarParticulas(List<Particle> particles) {
+        for (Particle p : particles) {
+            Pair<Integer, Integer> position = getCellIndex(p.x, p.y);
+            cells.get(position).particles.add(p);
         }
     }
 
-    private void setParticles(List<Particle> particles) {
-        for(Particle p : particles) {
-            int aux = this.getCellIndex(p.getX(), p.getY());
-            if(aux < 3200 && aux >= 0 ) {
-                this.cells.get(aux).getParticles().add(p);
-            }
-        }
-    }
-
-    public Integer getCellIndex(double x, double y) {
-        return (int)(Math.floor(x/cellSide) + Math.floor(y/cellSide)*this.cantCellPerLine);
+    public Pair<Integer, Integer> getCellIndex(double x, double y) {
+        int xp = (int) Math.floor(x / cellSize);
+        int yp = (int) Math.floor(y / cellSize);
+        return new Pair<>(xp, yp);
     }
 
     public void setNeighbour(Particle p1, Particle p2) {
-        if(this.getNeighbours().containsKey(p1)) {
-            this.getNeighbours().get(p1).add(p2);
+        if (neighbours.containsKey(p1)) {
+            neighbours.get(p1).add(p2);
         } else {
             Set<Particle> neighboursParticles = new HashSet<>();
             neighboursParticles.add(p2);
-            this.getNeighbours().put(p1,neighboursParticles);
+            neighbours.put(p1, neighboursParticles);
         }
+        setNeighbour(p2, p1);
     }
 
     public boolean areNeighbours(Particle p1, Particle p2) {
         try {
-            return getDistance(p1, p2) <= Math.max(p1.getR(),p2.getR());
+            return getDistance(p1, p2) <= Math.max(p1.getR(), p2.getR());
         } catch (Exception e) {
             return false;
         }
     }
 
     private double getDistance(Particle p1, Particle p2) {
-        if(p1 == null && p2 == null) {
+        if (p1 == null && p2 == null) {
             throw new NullPointerException();
         }
         return Math.hypot((p1.getX() - p2.getX()), (p1.getY() - p2.getY()));
@@ -94,9 +106,34 @@ public class Board2 {
 
     public void reset() {
         neighbours.clear();
-        for(Cell c : cells) {
-            c.getParticles();
-        }
-        setParticles(particles);
+        cells.clear();
+        ordenarParticulas(particles);
     }
+
+    public void rearrangeNeighbours(){
+        for(Cell2 c: cells.values()){
+            for(Particle p: c.particles){
+                reposicionarParticulas(p,c);
+            }
+        }
+    }
+
+    private void reposicionarParticulas(Particle p, Cell2 cell) {
+        int x = cell.x;
+        int y = cell.y;
+        for (int i = -1; i <= 1; i++) { //TODO OPTIMIZAR
+            for (int j = -1; j <= 1; j++) {
+                Pair<Integer, Integer> pos = new Pair<>(x + i, y + i);
+                if (cells.containsKey(pos)) {
+                    for (Particle p2 : getCell(pos).particles) {
+                        if (areNeighbours(p, p2)) {
+                            setNeighbour(p, p2);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 }

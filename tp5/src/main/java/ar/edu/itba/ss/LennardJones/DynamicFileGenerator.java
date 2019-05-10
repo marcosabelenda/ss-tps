@@ -30,7 +30,7 @@ public class    DynamicFileGenerator {
             for(int i = 0; i < numberParticles ; i++) {
                 while(true){
                     auxX = r + ran.nextDouble() * (side-2*r); //TODO FIX
-                    auxY = r + ran.nextDouble() * (side-2*r);
+                    auxY = r + ran.nextDouble() * (side-2*r); //TODO explicar que hay que fixear
                     boolean f = true;
                     for(Particle p: particles){
                         if(Math.pow(auxX - p.getX(),2) + Math.pow(auxY - p.getY(), 2) <=  Math.pow(r + p.getR(), 2)){
@@ -58,14 +58,14 @@ public class    DynamicFileGenerator {
         return particles;
     }
 
-    public void saveDynamicFile(Board b, int frame) {
+    public void saveDynamicFile(Board2 b, int frame) {
         try(FileWriter fw = new FileWriter("frame-" + frame + ".xyz", false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(b.getParticles().size());
+            out.println(b.particles.size());
             out.println("");
-            for(Particle p : b.getParticles()) {
+            for(Particle p : b.particles) {
 
                 out.println(p.getX() + " " + p.getY() + " " + p.getVx() + " " + p.getVy()  + " " + p.getR() +  " " + p.getPotential() + " " + p.getKinetic());
 

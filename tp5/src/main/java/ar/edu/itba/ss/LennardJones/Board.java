@@ -2,6 +2,7 @@ package ar.edu.itba.ss.LennardJones;
 
 import java.util.*;
 
+@Deprecated
 public class Board {
 
     private List<Cell> cells;
@@ -23,6 +24,7 @@ public class Board {
     private double interactionRadius;
     private double cantCellPerRow;
 
+    @Deprecated
     public Board(double height, double width, double cellSide, int cantCellPerRow, int cantCellPerLine,
                  double interactionRadius, double e, double rm, List<Particle> particles) throws Exception {
         this.height = height;
@@ -102,6 +104,7 @@ public class Board {
         }
     }
 
+    @Deprecated
     public Integer getCellIndex(double x, double y) {
         return (int)(Math.floor(x/cellSide) + Math.floor(y/cellSide)*this.cantCellPerLine);
     }
