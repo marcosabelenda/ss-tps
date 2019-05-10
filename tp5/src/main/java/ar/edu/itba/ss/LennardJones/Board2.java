@@ -127,6 +127,9 @@ public class Board2 {
                 if (cells.containsKey(pos)) {
                     for (Particle p2 : getCell(pos).particles) {
                         if (areNeighbours(p, p2)) {
+                            if(neighbours.get(p).contains(p2)){
+                                break;
+                            }
                             setNeighbour(p, p2);
                         }
                     }
