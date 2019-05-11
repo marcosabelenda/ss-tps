@@ -79,14 +79,16 @@ public class Board2 {
     }
 
     public void setNeighbour(Particle p1, Particle p2) {
-        if (neighbours.containsKey(p1)) {
-            neighbours.get(p1).add(p2);
-        } else {
-            Set<Particle> neighboursParticles = new HashSet<>();
-            neighboursParticles.add(p2);
-            neighbours.put(p1, neighboursParticles);
+        addNeighbour(p1,p2);
+        addNeighbour(p2,p1);
+    }
+
+    private void addNeighbour(Particle p1,Particle p2){
+        if(!neighbours.containsKey(p1)){
+            Set<Particle> nP = new HashSet<>();
+            neighbours.put(p1,nP);
         }
-        setNeighbour(p2, p1);
+        neighbours.get(p1).add(p2);
     }
 
     public boolean areNeighbours(Particle p1, Particle p2) {
