@@ -68,7 +68,7 @@ public class Board2 {
     private void ordenarParticulas(List<Particle> particles) {
         for (Particle p : particles) {
             Pair<Integer, Integer> position = getCellIndex(p.x, p.y);
-            cells.get(position).particles.add(p);
+            getCell(position).particles.add(p);
         }
     }
 
@@ -120,6 +120,14 @@ public class Board2 {
         }
     }
 
+    public Set<Particle> getNeighbour(Particle p1){
+        if(!neighbours.containsKey(p1)){
+            neighbours.put(p1,new HashSet<Particle>());
+        }
+        return neighbours.get(p1);
+
+    }
+
     private void reposicionarParticulas(Particle p, Cell2 cell) {
         int x = cell.x;
         int y = cell.y;
@@ -129,7 +137,7 @@ public class Board2 {
                 if (cells.containsKey(pos)) {
                     for (Particle p2 : getCell(pos).particles) {
                         if (areNeighbours(p, p2)) {
-                            if(neighbours.get(p).contains(p2)){
+                            if(getNeighbour(p).contains(p2)){
                                 break;
                             }
                             setNeighbour(p, p2);
