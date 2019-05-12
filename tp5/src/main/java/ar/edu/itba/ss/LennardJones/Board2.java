@@ -112,6 +112,8 @@ public class Board2 {
         ordenarParticulas(particles);
     }
 
+    //No es necesario generar una ED enorme para tal boludez, pedir los vecines por getNeighbours
+    @Deprecated
     public void rearrangeNeighbours(){
         for(Cell2 c: cells.values()){
             for(Particle p: c.particles){
@@ -120,6 +122,28 @@ public class Board2 {
         }
     }
 
+    public Set<Particle> getNeighbours(Particle p1){
+        Pair<Integer,Integer> in=getCellIndex(p1.x,p1.y);
+        int x = in.getKey();
+        int y = in.getValue();
+        HashSet<Particle> particles = new HashSet<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                Pair<Integer, Integer> pos = new Pair<>(x + i, y + i);
+                if (cells.containsKey(pos)) {
+                    for (Particle p2 : getCell(pos).particles) {
+                        if (areNeighbours(p1, p2)) {
+                            particles.add(p2);
+                        }
+                    }
+                }
+            }
+        }
+        return particles;
+    }
+
+    //Usar getNeighbours, es ineficiente tener un hashmap mounstruoso
+    @Deprecated
     public Set<Particle> getNeighbour(Particle p1){
         if(!neighbours.containsKey(p1)){
             neighbours.put(p1,new HashSet<Particle>());
