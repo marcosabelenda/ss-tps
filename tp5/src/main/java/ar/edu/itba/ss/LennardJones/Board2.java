@@ -12,8 +12,6 @@ public class Board2 {
 
     double height;
     double width;
-    double e;
-    double rm;
     double cellSize;
 
     double g;
@@ -21,32 +19,15 @@ public class Board2 {
     double kt;
     double window;
 
-
-    @Deprecated
-    public Board2(double height, double width, double e, double rm, double cellSide, List<Particle> particles) {
-        this.height = height;
-        this.width = width;
-        this.cellSize = cellSide;
-        this.cells = new HashMap<>();
-        this.e = e;
-        this.rm = rm;
-        this.neighbours = new HashMap<>();
-        this.particles = particles;
-        this.ordenarParticulas(particles);
-    }
-
-
-    public Board2(double height, double width, double e, double rm, double cellSize,
+    public Board2(double height, double width, double cellSize,
                   double g, double kn, double kt, double window,
                   List<Particle> particles) {
         this.height = height;
         this.width = width;
         this.cellSize = cellSize;
         this.cells = new HashMap<>();
-        this.e = e;
-        this.rm = rm;
 
-                this.g =g;
+        this.g =g;
         this.kn = kn;
         this.kt = kt;
         this.window = window;
@@ -59,7 +40,7 @@ public class Board2 {
 
     public Cell2 getCell(Pair<Integer, Integer> position) {
         if (!cells.containsKey(position)) {
-            cells.put(position, new Cell2(this.cellSize, position.getValue(), position.getKey()));
+            cells.put(position, new Cell2(this.cellSize, position.getKey(), position.getValue()));
         }
         return cells.get(position);
     }
@@ -67,7 +48,7 @@ public class Board2 {
 
     private void ordenarParticulas(List<Particle> particles) {
         for (Particle p : particles) {
-            Pair<Integer, Integer> position = getCellIndex(p.x, p.y);
+            Pair<Integer, Integer> position = getCellIndex(p.getX(), p.getY());
             getCell(position).particles.add(p);
         }
     }
@@ -93,7 +74,7 @@ public class Board2 {
 
     public boolean areNeighbours(Particle p1, Particle p2) {
         try {
-            return getDistance(p1, p2) <= Math.max(p1.getR(), p2.getR());
+            return getDistance(p1, p2) <= (p1.getR() + p2.getR());
         } catch (Exception e) {
             return false;
         }
@@ -113,15 +94,16 @@ public class Board2 {
     }
 
     //No es necesario generar una ED enorme para tal boludez, pedir los vecines por getNeighbours
-    @Deprecated
+    //@Deprecated
     public void rearrangeNeighbours(){
         for(Cell2 c: cells.values()){
-            for(Particle p: c.particles){
+            for(Particle p: c.getParticles()){
                 reposicionarParticulas(p,c);
             }
         }
     }
 
+    @Deprecated
     public Set<Particle> getNeighbours(Particle p1){
         Pair<Integer,Integer> in=getCellIndex(p1.x,p1.y);
         int x = in.getKey();
@@ -157,13 +139,10 @@ public class Board2 {
         int y = cell.y;
         for (int i = -1; i <= 1; i++) { //TODO OPTIMIZAR
             for (int j = -1; j <= 1; j++) {
-                Pair<Integer, Integer> pos = new Pair<>(x + i, y + i);
+                Pair<Integer, Integer> pos = new Pair<>(x + i, y + j);
                 if (cells.containsKey(pos)) {
                     for (Particle p2 : getCell(pos).particles) {
-                        if (areNeighbours(p, p2)) {
-                            if(getNeighbour(p).contains(p2)){
-                                break;
-                            }
+                        if (!p.equals(p2) && areNeighbours(p, p2)) {
                             setNeighbour(p, p2);
                         }
                     }

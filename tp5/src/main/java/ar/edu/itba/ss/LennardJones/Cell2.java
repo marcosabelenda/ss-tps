@@ -17,4 +17,7 @@ public class Cell2 {
         this.particles = new ArrayList<>();
     }
 
+    public List<Particle> getParticles() {
+        return particles;
+    }
 }

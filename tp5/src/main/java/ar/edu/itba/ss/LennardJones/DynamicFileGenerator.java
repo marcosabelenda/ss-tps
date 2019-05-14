@@ -16,41 +16,33 @@ public class    DynamicFileGenerator {
         this.particles = new ArrayList<>();
     }
 
-    public void generateDymanicFile(int seed, int numberParticles, double side, double v,
-                                    double m, double r) {
-        try(FileWriter fw = new FileWriter("frame-0.xyz", false);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw))
-        {
-            Random ran = new Random(seed);
-            out.println(numberParticles);
-            out.println("");
+    public void generateDymanicFile(int seed, double m, double height, double width) {
+        Random ran = new Random(seed);
+        double auxX, auxY, auxR;
 
-            double auxX, auxY, auxAngle;
-            for(int i = 0; i < numberParticles ; i++) {
-                while(true){
-                    auxX = r + ran.nextDouble() * (side-2*r); //TODO FIX
-                    auxY = r + ran.nextDouble() * (side-2*r); //TODO explicar que hay que fixear
-                    boolean f = true;
-                    for(Particle p: particles){
-                        if(Math.pow(auxX - p.getX(),2) + Math.pow(auxY - p.getY(), 2) <=  Math.pow(r + p.getR(), 2)){
-                            f = false;
-                            break;
-                        }
-                    }
-
-                    if(f) {
-                        break;
-                    }
+        int intentosTotales = 5000;
+        int intentos = 0;
+        int id = 0;
+        while(intentos < intentosTotales) {
+            auxR = 0.02 + ran.nextDouble() * 0.01;
+            auxX = auxR + ran.nextDouble() * (width-2*auxR);
+            auxY = ((height / 2) + auxR) + + ran.nextDouble() * ((height / 2) - 2 * auxR);
+            boolean posCorrecta = true;
+            for(Particle p: particles){
+                if(Math.pow(auxX - p.getX(),2) + Math.pow(auxY - p.getY(), 2) <=  Math.pow(auxR + p.getR(), 2)){
+                    posCorrecta = false;
+                    break;
                 }
-
-                auxAngle = Math.toRadians(ran.nextDouble() + ran.nextInt(360));
-                out.println(auxX + " " + auxY + " " + Math.cos(auxAngle) * v + " " + Math.sin(auxAngle) * v + " " + r);
-                particles.add(new Particle(i, auxX, auxY, r, m, Math.cos(auxAngle) * v, Math.sin(auxAngle) * v, 0, 0));
             }
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if(posCorrecta) {
+                particles.add(new Particle(id, auxX, auxY, auxR, m, 0, 0, 0, 0));
+                id++;
+                intentos = 0;
+            } else {
+                intentos++;
+            }
+
         }
     }
 
