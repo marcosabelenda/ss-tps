@@ -16,14 +16,16 @@ public class    DynamicFileGenerator {
         this.particles = new ArrayList<>();
     }
 
-    public void generateDymanicFile(int seed, double m, double height, double width) {
+    public void generateDymanicFile(int seed, double m, double height, double width, int cantidad) {
         Random ran = new Random(seed);
         double auxX, auxY, auxR;
 
         int intentosTotales = 5000;
         int intentos = 0;
         int id = 0;
-        while(intentos < intentosTotales) {
+        while(intentos <= intentosTotales) {
+            if(id>cantidad)
+                break;
             auxR = 0.02 + ran.nextDouble() * 0.01;
             auxX = auxR + ran.nextDouble() * (width-2*auxR);
             auxY = ((height / 2) + auxR) + + ran.nextDouble() * ((height / 2) - 2 * auxR);
@@ -44,6 +46,8 @@ public class    DynamicFileGenerator {
             }
 
         }
+        if(intentos>=intentosTotales)
+            System.out.println("No se pudo poner todas las particulas en el silo...."); //TODO arreglar
     }
 
     public List<Particle> getParticles() {

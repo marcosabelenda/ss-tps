@@ -7,6 +7,7 @@ import java.util.*;
 public class Board2 {
 
     Map<Pair<Integer, Integer>, Cell2> cells;
+    @Deprecated
     Map<Particle, Set<Particle>> neighbours;
     List<Particle> particles;
 
@@ -32,7 +33,7 @@ public class Board2 {
         this.kt = kt;
         this.window = window;
 
-        this.neighbours = new HashMap<>();
+        //this.neighbours = new HashMap<>();
         this.particles = particles;
         this.ordenarParticulas(particles);
     }
@@ -88,13 +89,13 @@ public class Board2 {
     }
 
     public void reset() {
-        neighbours.clear();
+//        neighbours.clear();
         cells.clear();
         ordenarParticulas(particles);
     }
 
     //No es necesario generar una ED enorme para tal boludez, pedir los vecines por getNeighbours
-    //@Deprecated
+    @Deprecated
     public void rearrangeNeighbours(){
         for(Cell2 c: cells.values()){
             for(Particle p: c.getParticles()){
@@ -103,7 +104,7 @@ public class Board2 {
         }
     }
 
-    @Deprecated
+
     public Set<Particle> getNeighbours(Particle p1){
         Pair<Integer,Integer> in=getCellIndex(p1.x,p1.y);
         int x = in.getKey();
@@ -111,10 +112,10 @@ public class Board2 {
         HashSet<Particle> particles = new HashSet<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Pair<Integer, Integer> pos = new Pair<>(x + i, y + i);
+                Pair<Integer, Integer> pos = new Pair<>(x + i, y + j);
                 if (cells.containsKey(pos)) {
                     for (Particle p2 : getCell(pos).particles) {
-                        if (areNeighbours(p1, p2)) {
+                        if (!p1.equals(p2) && areNeighbours(p1, p2)) {
                             particles.add(p2);
                         }
                     }
