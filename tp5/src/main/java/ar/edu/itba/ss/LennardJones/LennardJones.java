@@ -1,5 +1,6 @@
 package ar.edu.itba.ss.LennardJones;
 
+import ar.edu.itba.ss.utils.SalidaMetrics;
 import javafx.util.Pair;
 
 import java.util.Random;
@@ -12,6 +13,7 @@ public class LennardJones {
     private double ti;
     private DynamicFileGenerator dfg;
 
+    SalidaMetrics sm;
     Random r=new Random(1); //TODO SACAR LA FRUTA
 
 
@@ -20,6 +22,8 @@ public class LennardJones {
         this.tt = tt;
         this.ti = ti;
         this.dfg = dfg;
+
+        sm = new SalidaMetrics(dt);
     }
 
     public void sumaFuerzas(Board2 b) {
@@ -95,29 +99,38 @@ public class LennardJones {
 
 
     public void calculateNewPosition(Board2 b) {
+        int contar=0;
         for (Particle p : b.particles) {
-            velvet(p,b);
+            if(velret(p,b))
+                contar++;
         }
         b.reset();
         //b.rearrangeNeighbours();
+        sm.addSalieron(contar);
         sumaFuerzas(b);
     }
 
-    private void velvet(Particle p,Board2 b) {
+    private boolean velret(Particle p, Board2 b) {
         double x = 2 * p.getX() - p.getPrevx() + p.getAx() * Math.pow(dt, 2);
         double y = 2 * p.getY() - p.getPrevy() + p.getAy() * Math.pow(dt, 2);
 
         double vx = (x - p.getPrevx())/(dt*2);
         double vy = (y - p.getPrevy())/(dt*2);
 
+        boolean salio = false;
+
+        if(y<(b.height/2) && p.y>=(b.height/2))
+            salio = true;
+
         p.setX(x);
         p.setY(y);
         p.setVx(vx);
         p.setVy(vy);
 
-        if(y<(b.height/10)){
+        if(y<((b.height/2)-b.height/20)){
             reponerAlSiloLaParticula(p,b);
         }
+        return salio;
     }
 
     private void reponerAlSiloLaParticula(Particle p1,Board2 b){
@@ -130,7 +143,9 @@ public class LennardJones {
             auxX = auxR + r.nextDouble() * (b.width-2*auxR);
             auxY = ((b.height / 2) + auxR) + + r.nextDouble() * ((b.height / 2) - 2 * auxR);
             boolean posCorrecta = true;
-            for(Particle p: b.particles){ //TODO OPTIMIZAR
+            Set<Particle> bbb=b.getNeighbours(new Particle(0,auxX,auxY,auxR,0,0,0,0,0));
+            for(Particle p: bbb){
+            //            for(Particle p: b.particles){
                 if(Math.pow(auxX - p.getX(),2) + Math.pow(auxY - p.getY(), 2) <=  Math.pow(auxR + p.getR(), 2)){
                     posCorrecta = false;
                     break;
@@ -159,17 +174,6 @@ public class LennardJones {
     private void eulerInitialStep(Board2 b) {
 
         for(Particle p : b.particles) {
-//            double x = p.getX() + dt*p.getVx() + (Math.pow(dt,2)/2)*p.getAx();
-//            double vx = p.getVx() + dt*p.getAx();
-//            double y = p.getY() + dt*p.getVy() + (Math.pow(dt,2)/2)*p.getAy();
-//            double vy = p.getVy() + dt*p.getAy();
-//
-//            p.setX(x);
-//            p.setY(y);
-//            p.setVx(vx);
-//            p.setVy(vy);
-//
-//            p.setOldax(p.getAx());
             eulerInitialParticle(p,b);
         }
     }
@@ -188,7 +192,7 @@ public class LennardJones {
         p.setOldax(p.getAx());
     }
 
-    public void run(Board2 b) throws InterruptedException {
+    public void run(Board2 b) {
         //b.rearrangeNeighbours();
         sumaFuerzas(b);
         for(Particle p : b.particles) {
@@ -221,6 +225,7 @@ public class LennardJones {
             tImp++;
             t += dt;
         }
+        sm.saveMetrics();
     }
 
 }

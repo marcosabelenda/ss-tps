@@ -65,6 +65,7 @@ public class Board2 {
         addNeighbour(p2,p1);
     }
 
+    @Deprecated
     private void addNeighbour(Particle p1,Particle p2){
         if(!neighbours.containsKey(p1)){
             Set<Particle> nP = new HashSet<>();
@@ -87,7 +88,7 @@ public class Board2 {
         }
         return Math.hypot((p1.getX() - p2.getX()), (p1.getY() - p2.getY()));
     }
-
+    
     public void reset() {
 //        neighbours.clear();
         cells.clear();
@@ -138,7 +139,7 @@ public class Board2 {
     private void reposicionarParticulas(Particle p, Cell2 cell) {
         int x = cell.x;
         int y = cell.y;
-        for (int i = -1; i <= 1; i++) { //TODO OPTIMIZAR
+        for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 Pair<Integer, Integer> pos = new Pair<>(x + i, y + j);
                 if (cells.containsKey(pos)) {

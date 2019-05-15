@@ -24,7 +24,7 @@ public class    DynamicFileGenerator {
         int intentos = 0;
         int id = 0;
         while(intentos <= intentosTotales) {
-            if(id>cantidad)
+            if(id>=cantidad)
                 break;
             auxR = 0.02 + ran.nextDouble() * 0.01;
             auxX = auxR + ran.nextDouble() * (width-2*auxR);
@@ -46,7 +46,7 @@ public class    DynamicFileGenerator {
             }
 
         }
-        if(intentos>=intentosTotales)
+        if(intentos>intentosTotales)
             System.out.println("No se pudo poner todas las particulas en el silo...."); //TODO arreglar
     }
 
