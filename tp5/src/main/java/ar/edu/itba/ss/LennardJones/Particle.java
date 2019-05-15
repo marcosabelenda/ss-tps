@@ -43,6 +43,7 @@ public class Particle {
     public void setX(double x) {
         this.prevx = this.x;
         this.x = x;
+
     }
 
     public double getY() {
@@ -84,6 +85,7 @@ public class Particle {
 
     public void setAx(double ax) {
         this.ax = ax;
+
     }
 
     public double getAy() {
@@ -184,5 +186,14 @@ public class Particle {
         return this.id.equals(p.getId());
     }
 
+
+    public void recolocar(double x,double y){
+        this.x=x;
+        this.y=y;
+        this.vx=0;
+        this.vy=0;
+        this.prevx=0;
+        this.prevy=0;
+    }
 
 }

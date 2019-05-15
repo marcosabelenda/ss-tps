@@ -17,6 +17,7 @@ public class Cell2 {
         this.particles = new ArrayList<>();
     }
 
+    @Deprecated
     public List<Particle> getParticles() {
         return particles;
     }
