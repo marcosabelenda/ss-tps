@@ -1,8 +1,8 @@
-mass:0.1
-elasticity:10000
-gamma:100
-number_particles:1000
-velocity:10
+height:3
+width:0.4
+cell_side:0.06
+seed:20
+window:0.25
 print_time:1000
-delta_time:0.000001
+delta_time:0.00001
 total_time:5

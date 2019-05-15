@@ -19,9 +19,13 @@ public class Board2 {
     double kt;
     double window;
 
+    Random random;
+
+    double limite;
+
     public Board2(double height, double width, double cellSize,
                   double g, double kn, double kt, double window,
-                  List<Particle> particles) {
+                  List<Particle> particles, int seed) {
         this.height = height;
         this.width = width;
         this.cellSize = cellSize;
@@ -35,6 +39,11 @@ public class Board2 {
         this.neighbours = new HashMap<>();
         this.particles = particles;
         this.ordenarParticulas(particles);
+
+        this.random = new Random(seed);
+
+        //height - (height/2) - (height/2)/10
+        this.limite = (9.0/20.0)*height;
     }
 
 
@@ -48,6 +57,9 @@ public class Board2 {
 
     private void ordenarParticulas(List<Particle> particles) {
         for (Particle p : particles) {
+            if(p.getY() < limite) {
+                subirParticula(p);
+            }
             Pair<Integer, Integer> position = getCellIndex(p.getX(), p.getY());
             getCell(position).particles.add(p);
         }
@@ -150,6 +162,46 @@ public class Board2 {
             }
         }
 
+    }
+
+
+    private void subirParticula(Particle p) {
+
+        int intentos = 0;
+        //hago mil intentos
+        int intentosTotales = 1000;
+        double viejoX = p.getX(), viejoY = p.getY();
+        double nuevoX, nuevoY;
+
+        while(intentos < intentosTotales) {
+            nuevoX = p.getR() + this.random.nextDouble() * (width-2*p.getR());
+
+            //considero solo el 20% de la parte superior del tablero
+            nuevoY = ((9.0/10.0) * height) + this.random.nextDouble() * ((1/10.0)*height) - p.getR();
+
+            p.x = nuevoX;
+            p.y = nuevoY;
+
+            boolean posOk = true;
+
+            //TODO OPTIMIZAR
+            for(Particle p1 : particles) {
+                if(!(p.equals(p1)) && areNeighbours(p, p1)) {
+                    posOk = false;
+                    break;
+                }
+            }
+
+            if(posOk) {
+                p.ponerTodoEnCero();
+                return;
+            } else {
+                intentos++;
+            }
+        }
+
+        p.x = viejoX;
+        p.y = viejoY;
     }
 
 }

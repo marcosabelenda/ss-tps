@@ -95,6 +95,7 @@ public class LennardJones {
         b.reset();
         b.rearrangeNeighbours();
         calculateForce(b);
+
     }
 
     private void velvet(Particle p) {

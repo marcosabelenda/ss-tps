@@ -149,6 +149,14 @@ public class Particle {
         this.potential = potential;
     }
 
+    public void ponerTodoEnCero() {
+        this.vx = 0;
+        this.vy = 0;
+        this.ax = 0;
+        this.ay = 0;
+        this.prevx = x;
+        this.prevy = y;
+    }
 
     @Override
     public int hashCode() {
