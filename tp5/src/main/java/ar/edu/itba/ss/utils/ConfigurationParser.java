@@ -10,6 +10,8 @@ public class ConfigurationParser {
                                 WIDTH = "width",
                                 CELL_SIDE = "cell_side",
                                 WINDOW = "window",
+                                MAX_R = "max_radius",
+                                MIN_R = "min_radius",
                                 PRINT_TIME = "print_time",
                                 DELTA_TIME = "delta_time",
                                 TOTAL_TIME = "total_time";
@@ -24,6 +26,9 @@ public class ConfigurationParser {
     private double window;
 
     private double cellSide;
+
+    private double maxR;
+    private double minR;
 
     private int seed = 1;
 
@@ -50,6 +55,14 @@ public class ConfigurationParser {
 
                 case HEIGHT:
                     this.height = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case MAX_R:
+                    this.maxR = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case MIN_R:
+                    this.minR = Double.parseDouble(args[VALUE]);
                     break;
 
                 case WIDTH:
@@ -114,5 +127,13 @@ public class ConfigurationParser {
 
     public int getSeed() {
         return seed;
+    }
+
+    public double getMaxR() {
+        return maxR;
+    }
+
+    public double getMinR() {
+        return minR;
     }
 }

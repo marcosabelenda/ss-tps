@@ -14,7 +14,7 @@ public class App
         c.parse("configuration.txt");
         DynamicFileGenerator dfg = new DynamicFileGenerator();
 
-        dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth());
+        dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth(), c.getMinR(), c.getMaxR());
 
         //TODO poner bien los tamanios y los argumentos
         Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), c.getSeed());

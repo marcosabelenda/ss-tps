@@ -17,7 +17,8 @@ public class Particle {
     double newax;
     double neway;
     Integer id;
-    double potential;
+    double presion = 0;
+    double perimetro;
 
 
     public Particle(Integer id, double x, double y, double r, double m, double vx, double vy, double ax, double ay) {
@@ -32,6 +33,7 @@ public class Particle {
         this.vy = vy;
         this.ax = ax;
         this.ay = ay;
+        this.perimetro = 2*Math.PI*this.r;
     }
 
     public double getX() {
@@ -136,17 +138,20 @@ public class Particle {
         return (1/2.0)*m*(Math.pow(vx,2)+Math.pow(vy,2));
     }
 
-
     public Integer getId() {
         return id;
     }
 
-    public double getPotential() {
-        return potential;
+    public double getPresion() {
+        return presion;
     }
 
-    public void setPotential(double potential) {
-        this.potential = potential;
+    public void agregarPresion(double presion) {
+        this.presion += Math.abs(presion)/perimetro;
+    }
+
+    public void resetearPresion() {
+        this.presion = 0;
     }
 
     public void ponerTodoEnCero() {

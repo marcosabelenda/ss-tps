@@ -28,6 +28,8 @@ public class LennardJones {
     }
 
     private Pair<Double,Double> calculateForce(Board2 b, Particle p, Set<Particle> list) {
+        //reseteo presion
+        p.resetearPresion();
         double fx = 0, fy = -p.getM()*b.g;
         //calculo con los vecines
         if (list != null) {
@@ -78,6 +80,12 @@ public class LennardJones {
         double ey = (p2.y - p1.y ) / d;
 
         double fn = - b.kn * eps;
+
+        //agrego presion
+        p1.agregarPresion(fn);
+
+
+
         double ft = - b.kt * eps * ((p1.vx - p2.vx) * (-ey) + (p1.vy - p2.vy) * ex);
 
         double fx = fn * ex + ft * (-ey);
