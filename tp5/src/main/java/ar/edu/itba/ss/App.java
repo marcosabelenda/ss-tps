@@ -14,19 +14,13 @@ public class App
         c.parse("configuration.txt");
         DynamicFileGenerator dfg = new DynamicFileGenerator();
 
-        double height = 1.5 * 1;
-        double width = 0.3 * 1;
-        double window = 0.1 * 1;
 
-        dfg.generateDymanicFile(1, 0.01, height, width, c.getNumberParticles());
+        dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth(), c.getMinR(), c.getMaxR());
 
-        //dfg.getParticles().add(new Particle(1,0.1, 1.3, 0.022,0.01,0,0,0,0));
-        //dfg.getParticles().add(new Particle(2,0.09, 1.6, 0.022,0.01,0,0,0,0));
 
-        //dfg.getParticles().add(new Particle(3,0.11, 1.5, 0.022,0.01,0,0,0,0));
         //TODO poner bien los tamanios y los argumentos
-        Board2 b = new Board2(height, width, 0.06,9.8, 100000, 200000, window, dfg.getParticles());
 
+        Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), c.getSeed());
         dfg.saveDynamicFile(b, 0);
         LennardJones lj = new LennardJones(c.getDelta_time(), c.getTotal_time(), c.getPrint_time(), dfg);
 

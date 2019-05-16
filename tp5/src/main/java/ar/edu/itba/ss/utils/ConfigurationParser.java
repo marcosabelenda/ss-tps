@@ -5,45 +5,37 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigurationParser {
-    private final static String NUMBER_PARTICLES_HEADER = "number_particles",
-                                BOARD_SIDE_HEADER = "board_side",
-                                DYNAMIC_FILE_HEADER = "dynamic_file",
-                                ETHA = "etha",
-                                VELOCITY = "velocity",
+    private final static String HEIGHT = "height",
+                                SEED = "seed",
+                                WIDTH = "width",
+                                CELL_SIDE = "cell_side",
+                                WINDOW = "window",
+                                MAX_R = "max_radius",
+                                MIN_R = "min_radius",
                                 PRINT_TIME = "print_time",
-                                XYZ = "xyz",
                                 DELTA_TIME = "delta_time",
-                                MASS = "mass",
-                                ELASTICITY = "elasticity",
-                                GAMMA = "gamma",
                                 TOTAL_TIME = "total_time";
 
     private final static String VALUE_SEPARATOR = ":";
     private final static int HEADER = 0, VALUE = 1;
 
-    private int numberParticles;
-    private double boardSide;
-    private String dynamicFileName;
 
 
+    private double height;
+    private double width;
+    private double window;
 
-    private boolean xyz = true;
-    private double etha;
-    private double velocity;
+    private double cellSide;
+
+    private double maxR;
+    private double minR;
+
+    private int seed = 1;
+
     private double print_time;
-
     private double delta_time;
-    private double mass;
-    private double elasticity;
-    private double gamma;
-
-
     private int total_time;
 
-
-    public ConfigurationParser(){
-        this.dynamicFileName = "";
-    }
 
     public void parse(String fileName) throws IOException {
 
@@ -57,24 +49,32 @@ public class ConfigurationParser {
 
             switch(args[HEADER]) {
 
-                case NUMBER_PARTICLES_HEADER:
-                    this.numberParticles = Integer.parseInt(args[VALUE]);
+                case SEED:
+                    this.seed = Integer.parseInt(args[VALUE]);
                     break;
 
-                case BOARD_SIDE_HEADER:
-                    this.boardSide = Double.parseDouble(args[VALUE]);
+                case HEIGHT:
+                    this.height = Double.parseDouble(args[VALUE]);
                     break;
 
-                case DYNAMIC_FILE_HEADER:
-                    this.dynamicFileName = args[VALUE];
+                case MAX_R:
+                    this.maxR = Double.parseDouble(args[VALUE]);
                     break;
 
-                case ETHA:
-                    this.etha = Double.parseDouble(args[VALUE]);
+                case MIN_R:
+                    this.minR = Double.parseDouble(args[VALUE]);
                     break;
 
-                case VELOCITY:
-                    this.velocity = Double.parseDouble(args[VALUE]);
+                case WIDTH:
+                    this.width = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case CELL_SIDE:
+                    this.cellSide = Double.parseDouble(args[VALUE]);
+                    break;
+
+                case WINDOW:
+                    this.window = Double.parseDouble(args[VALUE]);
                     break;
 
                 case PRINT_TIME:
@@ -89,52 +89,12 @@ public class ConfigurationParser {
                     this.delta_time = Double.parseDouble(args[VALUE]);
                     break;
 
-                case MASS:
-                    this.mass = Double.parseDouble(args[VALUE]);
-                    break;
-
-                case ELASTICITY:
-                    this.elasticity = Double.parseDouble(args[VALUE]);
-                    break;
-
-                case GAMMA:
-                    this.gamma = Double.parseDouble(args[VALUE]);
-                    break;
-
-                case XYZ:
-                    if("false".equals(args[VALUE]))
-                        this.xyz=false;
-                    break;
-
-
-
                 default:
 
             }
         }
         bufferedReader.close();
 
-    }
-
-
-    public int getNumberParticles() {
-        return numberParticles;
-    }
-
-    public double getBoardSide() {
-        return boardSide;
-    }
-
-    public String getDynamicFileName() {
-        return dynamicFileName;
-    }
-
-    public double getEtha() {
-        return etha;
-    }
-
-    public double getVelocity() {
-        return velocity;
     }
 
     public double getPrint_time() {
@@ -145,23 +105,35 @@ public class ConfigurationParser {
         return total_time;
     }
 
-    public boolean isXyz() {
-        return xyz;
-    }
-
     public double getDelta_time() {
         return delta_time;
     }
 
-    public double getMass() {
-        return mass;
+    public double getHeight() {
+        return height;
     }
 
-    public double getElasticity() {
-        return elasticity;
+    public double getWidth() {
+        return width;
     }
 
-    public double getGamma() {
-        return gamma;
+    public double getWindow() {
+        return window;
+    }
+
+    public double getCellSide() {
+        return cellSide;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public double getMaxR() {
+        return maxR;
+    }
+
+    public double getMinR() {
+        return minR;
     }
 }

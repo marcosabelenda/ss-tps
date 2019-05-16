@@ -35,7 +35,9 @@ public class LennardJones {
         }
     }
 
+
     private Pair<Double,Double> sumaFuerzas(Board2 b, Particle p, Set<Particle> list) {
+
         double fx = 0, fy = -p.getM()*b.g;
         //calculo con los vecines
         if (list != null) {
@@ -86,8 +88,15 @@ public class LennardJones {
         double ey = (p2.y - p1.y ) / d;
 
         double fn = - b.kn * eps;
-        double uno = ((p1.vx - p2.vx) * (-ey) + (p1.vy - p2.vy) * ex);
-        double ft = - b.kt * eps * uno;
+
+
+        //agrego presion
+        p1.agregarPresion(fn);
+
+
+
+        double ft = - b.kt * eps * ((p1.vx - p2.vx) * (-ey) + (p1.vy - p2.vy) * ex);
+
 
         double fx = fn * ex + ft * (-ey);
         double fy = fn * ey + ft * ex;
@@ -105,9 +114,10 @@ public class LennardJones {
                 contar++;
         }
         b.reset();
-        //b.rearrangeNeighbours();
+
         sm.addSalieron(contar);
         sumaFuerzas(b);
+
     }
 
     private boolean velret(Particle p, Board2 b) {
