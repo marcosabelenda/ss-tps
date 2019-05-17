@@ -16,7 +16,7 @@ public class    DynamicFileGenerator {
         this.particles = new ArrayList<>();
     }
 
-    public void generateDymanicFile(int seed, double m, double height, double width, double minR, double maxR) {
+    public void generateDymanicFile(int seed, double m, double height, double width, double minR, double maxR, int cant_max) {
 
         Random ran = new Random(seed);
         double auxX, auxY, auxR;
@@ -26,6 +26,9 @@ public class    DynamicFileGenerator {
         int id = 0;
 
         while(intentos < intentosTotales) {
+            if(id>=cant_max)
+                break;
+
             auxR = minR + ran.nextDouble() * (maxR-minR);
 
             auxX = auxR + ran.nextDouble() * (width-2*auxR);

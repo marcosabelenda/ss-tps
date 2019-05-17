@@ -37,7 +37,7 @@ public class LennardJones {
 
 
     private Pair<Double,Double> sumaFuerzas(Board2 b, Particle p, Set<Particle> list) {
-
+        p.resetearPresion();
         double fx = 0, fy = -p.getM()*b.g;
         //calculo con los vecines
         if (list != null) {

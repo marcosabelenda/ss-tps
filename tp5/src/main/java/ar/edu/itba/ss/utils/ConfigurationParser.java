@@ -14,6 +14,7 @@ public class ConfigurationParser {
                                 MIN_R = "min_radius",
                                 PRINT_TIME = "print_time",
                                 DELTA_TIME = "delta_time",
+                                CANT_MAXIMA = "cantidad_maxima",
                                 TOTAL_TIME = "total_time";
 
     private final static String VALUE_SEPARATOR = ":";
@@ -29,6 +30,8 @@ public class ConfigurationParser {
 
     private double maxR;
     private double minR;
+
+    private int cant_maxima;
 
     private int seed = 1;
 
@@ -89,6 +92,10 @@ public class ConfigurationParser {
                     this.delta_time = Double.parseDouble(args[VALUE]);
                     break;
 
+                case CANT_MAXIMA:
+                    this.cant_maxima = Integer.parseInt(args[VALUE]);
+                    break;
+
                 default:
 
             }
@@ -135,5 +142,13 @@ public class ConfigurationParser {
 
     public double getMinR() {
         return minR;
+    }
+
+    public int getCant_maxima() {
+        return cant_maxima;
+    }
+
+    public void setCant_maxima(int cant_maxima) {
+        this.cant_maxima = cant_maxima;
     }
 }

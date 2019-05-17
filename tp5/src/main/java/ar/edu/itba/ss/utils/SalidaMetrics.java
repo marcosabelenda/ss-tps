@@ -24,7 +24,7 @@ public class SalidaMetrics {
     }
 
     public void addSalieron(int cantidad) {
-//        if(cantidad!=0)
+        if(cantidad!=0)
             salieron.add(new Pair<>(contador*dt,cantidad));
         contador++;
     }

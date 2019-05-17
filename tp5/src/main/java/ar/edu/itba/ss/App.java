@@ -15,7 +15,7 @@ public class App
         DynamicFileGenerator dfg = new DynamicFileGenerator();
 
 
-        dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth(), c.getMinR(), c.getMaxR());
+        dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth(), c.getMinR(), c.getMaxR(), c.getCant_maxima());
 
 
 //        Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), c.getSeed());
