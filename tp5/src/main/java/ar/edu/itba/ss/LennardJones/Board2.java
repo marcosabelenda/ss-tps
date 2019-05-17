@@ -57,10 +57,17 @@ public class Board2 {
 
 
     private void ordenarParticulas(List<Particle> particles) {
+        Set<Particle> aSubir = new HashSet<>();
         for (Particle p : particles) {
             if(p.getY() < limite) {
-                subirParticula(p);
+                aSubir.add(p);
+            }else{
+                Pair<Integer, Integer> position = getCellIndex(p.getX(), p.getY());
+                getCell(position).particles.add(p);
             }
+        }
+        for (Particle p: aSubir){
+            subirParticula(p);
             Pair<Integer, Integer> position = getCellIndex(p.getX(), p.getY());
             getCell(position).particles.add(p);
         }
@@ -174,7 +181,6 @@ public class Board2 {
         int intentosTotales = 1000;
         double viejoX = p.getX(), viejoY = p.getY();
         double nuevoX, nuevoY;
-
         while(intentos < intentosTotales) {
             nuevoX = p.getR() + this.random.nextDouble() * (width-2*p.getR());
 
@@ -186,8 +192,9 @@ public class Board2 {
 
             boolean posOk = true;
 
-            //TODO OPTIMIZAR
-            for(Particle p1 : particles) {
+
+            for(Particle p1 : getNeighbours(p)){
+//           for(Particle p1 : particles) {
                 if(!(p.equals(p1)) && areNeighbours(p, p1)) {
                     posOk = false;
                     break;
@@ -200,6 +207,9 @@ public class Board2 {
             } else {
                 intentos++;
             }
+        }
+        if(intentos>=intentosTotales){
+            System.out.println("No pudo subir la particula");
         }
 
         p.x = viejoX;

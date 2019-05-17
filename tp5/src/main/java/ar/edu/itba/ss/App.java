@@ -18,9 +18,12 @@ public class App
         dfg.generateDymanicFile(c.getSeed(), 0.01, c.getHeight(), c.getWidth(), c.getMinR(), c.getMaxR());
 
 
-        //TODO poner bien los tamanios y los argumentos
+//        Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), c.getSeed());
 
-        Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), c.getSeed());
+        // usa random System.millis
+        Board2 b = new Board2(c.getHeight(), c.getWidth(), c.getCellSide(),9.8, 100000, 200000, c.getWindow(), dfg.getParticles(), (int) System.currentTimeMillis());
+
+
         dfg.saveDynamicFile(b, 0);
         LennardJones lj = new LennardJones(c.getDelta_time(), c.getTotal_time(), c.getPrint_time(), dfg);
 

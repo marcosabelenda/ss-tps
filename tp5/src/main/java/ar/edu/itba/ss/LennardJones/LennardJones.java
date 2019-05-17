@@ -14,7 +14,7 @@ public class LennardJones {
     private DynamicFileGenerator dfg;
 
     SalidaMetrics sm;
-    Random r=new Random(1); //TODO SACAR LA FRUTA
+    Random r=new Random(1);
 
 
     public LennardJones(double dt, double tt, double ti, DynamicFileGenerator dfg) {
@@ -137,12 +137,13 @@ public class LennardJones {
         p.setVx(vx);
         p.setVy(vy);
 
-        if(y<((b.height/2)-b.height/20)){
-            reponerAlSiloLaParticula(p,b);
-        }
+//        if(y<((b.height/2)-b.height/20)){
+//            reponerAlSiloLaParticula(p,b);
+//        }
         return salio;
     }
 
+    @Deprecated
     private void reponerAlSiloLaParticula(Particle p1,Board2 b){
         double auxX, auxY, auxR;
 
