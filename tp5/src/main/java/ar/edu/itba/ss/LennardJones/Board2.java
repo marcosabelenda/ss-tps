@@ -184,8 +184,8 @@ public class Board2 {
         while(intentos < intentosTotales) {
             nuevoX = p.getR() + this.random.nextDouble() * (width-2*p.getR());
 
-            //considero solo el 20% de la parte superior del tablero
-            nuevoY = ((9.0/10.0) * height) + this.random.nextDouble() * ((1/10.0)*height) - p.getR();
+            //considero solo el 40% de la parte superior del tablero
+            nuevoY = ((8.0/10.0) * height) + this.random.nextDouble() * ((2/10.0)*height) - p.getR();
 
             p.x = nuevoX;
             p.y = nuevoY;
