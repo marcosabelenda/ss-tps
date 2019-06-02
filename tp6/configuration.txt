@@ -1,0 +1,15 @@
+height:20
+width:40
+cell_side:0.74
+seed:20
+window:1.2
+max_radius:0.37
+min_radius:0.1
+print_time:10
+delta_time:0.01
+cantidad_maxima:200
+total_time:300
+max_velocity:0.95
+beta:1
+tao:0.5
+outside_width:20
