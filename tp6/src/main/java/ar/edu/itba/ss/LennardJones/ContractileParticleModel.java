@@ -5,6 +5,7 @@ import ar.edu.itba.ss.utils.SalidaMetrics;
 import javafx.util.Pair;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ContractileParticleModel {
 
@@ -17,6 +18,7 @@ public class ContractileParticleModel {
     private double beta;
     private double tao;
     private DynamicFileGenerator dfg;
+    AtomicInteger cantidad;
 
     SalidaMetrics sm;
 
@@ -31,29 +33,55 @@ public class ContractileParticleModel {
         this.tao = tao;
         this.dfg = dfg;
 
+        cantidad = new AtomicInteger(0);
+
         sm = new SalidaMetrics(dt);
     }
 
 
     private void avanzar(Board2 b) {
-        for(Particle p : b.particles) {
-            Set<Particle> list = b.getNeighbours(p);
+//        for(Particle p : b.particles) {
+//            avanza(b,p);
+//        }
+        b.particles.parallelStream().forEach(p->avanza(b,p));
 
-            if(p.target.llegoAlTarget(p)) {
-                p.setTarget(p.target.getNextTarget());
-            }
 
-            if(((p.getX()+p.getR()) >= (b.width-b.outsideWidth) && p.getX() < b.width-b.outsideWidth) &&
-                    (p.getY() <= (b.height-b.window)/2 || p.getY() >= (b.height+b.window)/2)) {
-                list.add(new Particle(-1,b.width-b.outsideWidth+p.getR(),p.getY(), p.getR(), 0, 0, null));
-            }
 
-            if(list.isEmpty()) {
-                avanzarSinVecinos(p);
-            } else {
-                avanzarConVecinos(p, list);
-            }
+    }
+
+    private void contarSalidas(Board2 b){
+        //METRICAS
+        int ultimas = cantidad.get();
+        cantidad.set(0);
+        b.particles.parallelStream().forEach(p->siSalio(b,p));
+        sm.addSalieron(cantidad.get() - ultimas);
+    }
+
+
+    private void siSalio(Board2 b, Particle p){
+        if(p.x>b.outsideWidth){
+            cantidad.incrementAndGet();
         }
+    }
+
+    private void avanza(Board2 b, Particle p){
+        Set<Particle> list = b.getNeighbours(p);
+
+        if(p.target.llegoAlTarget(p)) {
+            p.setTarget(p.target.getNextTarget());
+        }
+
+        if(((p.getX()+p.getR()) >= (b.width-b.outsideWidth) && p.getX() < b.width-b.outsideWidth) &&
+                (p.getY() <= (b.height-b.window)/2 || p.getY() >= (b.height+b.window)/2)) {
+            list.add(new Particle(-1,b.width-b.outsideWidth+p.getR(),p.getY(), p.getR(), 0, 0, null));
+        }
+
+        if(list.isEmpty()) {
+            avanzarSinVecinos(p);
+        } else {
+            avanzarConVecinos(p, list);
+        }
+
     }
 
 
@@ -122,6 +150,7 @@ public class ContractileParticleModel {
         while(t < tt) {
 
             avanzar(b);
+            contarSalidas(b);
             b.reset();
 
             if(iteracion % ti == 0) {
@@ -133,6 +162,6 @@ public class ContractileParticleModel {
             iteracion++;
         }
 
-    //    sm.saveMetrics();
+        sm.saveMetrics();
     }
 }
