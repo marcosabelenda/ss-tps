@@ -8,7 +8,7 @@ min_radius:0.1
 print_time:10
 delta_time:0.01
 cantidad_maxima:200
-total_time:100
+total_time:300
 max_velocity:0.95
 beta:1
 tao:0.5
