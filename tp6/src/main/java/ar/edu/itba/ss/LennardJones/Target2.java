@@ -19,8 +19,11 @@ public class Target2 implements Target {
         ex = x - p.getX();
         ey = y - p.getY();
 
-        ex /= Math.hypot(ex, ey);
-        ey /= Math.hypot(ex, ey);
+        double module = Math.sqrt(Math.pow(Math.hypot(p.getX(), p.getY()),2)
+                + Math.pow(Math.hypot(x,y),2) - 2 * (p.getX()*x + p.getY()*y));
+
+        ex /= module;
+        ey /= module;
 
         return new Pair<>(ex, ey);
     }

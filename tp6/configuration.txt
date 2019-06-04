@@ -3,11 +3,11 @@ width:40
 cell_side:0.74
 seed:20
 window:1.2
-max_radius:0.37
-min_radius:0.1
+max_radius:0.32
+min_radius:0.15
 print_time:10
-delta_time:0.01
-cantidad_maxima:200
+delta_time:0.05
+cantidad_maxima:500
 total_time:300
 max_velocity:0.95
 beta:1

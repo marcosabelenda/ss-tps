@@ -54,12 +54,13 @@ public class ContractileParticleModel {
         int ultimas = cantidad.get();
         cantidad.set(0);
         b.particles.parallelStream().forEach(p->siSalio(b,p));
-        sm.addSalieron(cantidad.get() - ultimas);
+        int salieron =cantidad.get() - ultimas;
+        sm.addSalieron(salieron);
     }
 
 
     private void siSalio(Board2 b, Particle p){
-        if(p.x>b.outsideWidth){
+        if(p.target instanceof Target2){
             cantidad.incrementAndGet();
         }
     }

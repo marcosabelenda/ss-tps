@@ -17,7 +17,7 @@ public class App
 
         // creo los dos target y se los paso a las particulas
         Target t2 = new Target2(c.getWidth()-c.getOutsideWidth()/2,(c.getHeight()/2));
-        Target t1 = new Target1(c.getWidth()-c.getOutsideWidth(),(c.getHeight() + c.getWindow())/2-c.getMaxR(),(c.getHeight() - c.getWindow())/2+c.getMaxR(), t2);
+        Target t1 = new Target1(c.getWidth()-c.getOutsideWidth(),(c.getHeight() + c.getWindow())/2-c.getMaxR(),(c.getHeight() - c.getWindow())/2+c.getMaxR(), t2, c.getMaxR());
         dfg.generateDymanicFile(c.getSeed(), c.getHeight(), c.getWidth()-c.getOutsideWidth(), c.getMaxR(), c.getCant_maxima(), t1);
 
         // usa random System.millis

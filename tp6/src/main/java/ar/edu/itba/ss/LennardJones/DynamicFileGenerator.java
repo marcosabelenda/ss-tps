@@ -63,7 +63,7 @@ public class    DynamicFileGenerator {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(b.particles.size()+788);
+            out.println(b.particles.size()+791);
             out.println("");
             //paredes
             for(int i = 0 ; i <= 200 ; i++) {
